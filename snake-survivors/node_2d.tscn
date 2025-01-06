@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvjws0wjptw3n"]
+
+[ext_resource type="Script" path="res://kilépés.gd" id="1_rxlv8"]
+
+[node name="Button" type="Button"]
+offset_left = 526.0
+offset_top = 431.0
+offset_right = 590.0
+offset_bottom = 462.0
+text = "Kilépés"
+script = ExtResource("1_rxlv8")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = -129.0
+offset_right = 51.0
+offset_bottom = -98.0
+text = "Start"
