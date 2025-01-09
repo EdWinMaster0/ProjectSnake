@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=7 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/player_movement.gd" id="1_rhkjq"]
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="2_bejli"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wbe"]
 radius = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7hfeu"]
+radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hpr6u"]
 radius = 82.2982
@@ -42,6 +45,9 @@ texture = ExtResource("2_bejli")
 hframes = 4
 vframes = 20
 frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment"]
+shape = SubResource("CircleShape2D_7hfeu")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 
