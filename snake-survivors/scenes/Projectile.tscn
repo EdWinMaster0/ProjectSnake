@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0xdfoq7cuel5"]
+
+[ext_resource type="Script" path="res://projectile.gd" id="1_kfr6m"]
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="2_3ou3x"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t6650"]
+height = 44.0
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_kfr6m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("2_3ou3x")
+hframes = 4
+vframes = 20
+frame = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_t6650")

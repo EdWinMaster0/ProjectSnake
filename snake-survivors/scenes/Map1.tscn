@@ -37,7 +37,11 @@ shape = SubResource("CircleShape2D_67wbe")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_yjjee")
 
+[node name="Marker2D" type="Node2D" parent="Player"]
+position = Vector2(31, 0)
+
 [node name="MoveToPos_Debug" type="Sprite2D" parent="."]
+position = Vector2(105, 0)
 texture = ExtResource("2_bejli")
 hframes = 4
 vframes = 20

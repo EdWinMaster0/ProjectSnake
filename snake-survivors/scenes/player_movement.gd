@@ -7,6 +7,7 @@ var segments = []
 var position_history = []
 var dir_history = []
 var segment_scene = preload("res://scenes/Segment.tscn")
+var projectile_scene = preload("res://scenes/Projectile.tscn")
 func _ready():
 	for i in range(num_segments):
 		var s = segment_scene.instantiate()
@@ -24,6 +25,11 @@ func get_input():
 func _physics_process(delta):
 	get_input()
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("Action"):
+		var proj = projectile_scene.instantiate()
+		call_deferred("add_sibling", proj)
+		proj.position = position + dir_history[dir_history.size() - 1] * 30
 	
 	if position != position_history.back():
 		position_history.append(position)
