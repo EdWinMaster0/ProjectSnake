@@ -13,10 +13,10 @@ radius = 82.2982
 [node name="Map1" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(80, 0)
 script = ExtResource("1_rhkjq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(5, 0)
 rotation = 1.5708
 scale = Vector2(5, 5)
 texture = ExtResource("2_bejli")
@@ -26,6 +26,8 @@ vframes = 20
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_67wbe")
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
 [node name="MoveToPos_Debog" type="Sprite2D" parent="."]
 texture = ExtResource("2_bejli")
 hframes = 4
@@ -34,6 +36,7 @@ frame = 4
 script = ExtResource("3_amgmp")
 
 [node name="Segment" type="CharacterBody2D" parent="."]
+visible = false
 
 [node name="TrailSprite" type="Sprite2D" parent="Segment"]
 rotation = 1.5708
@@ -44,7 +47,14 @@ vframes = 20
 frame = 1
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(260, 146)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(279, 147)
 shape = SubResource("CircleShape2D_hpr6u")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+scale = Vector2(10, 10)
+texture = ExtResource("2_bejli")
+hframes = 4
+vframes = 20
+frame = 4

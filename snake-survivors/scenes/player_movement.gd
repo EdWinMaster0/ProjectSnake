@@ -1,23 +1,21 @@
 extends CharacterBody2D
 
-@export var speed = 200
+@export var speed = 400
 @export var num_segments = 3
-@export var delay_frames = 25  # How many frames ago to store the position
-@export var index = 1
-var mouse_position = null
+@export var delay_frames = 12  # speed 200 => 24, speed 400=> 12
 var segments = []
 var position_history = []
 var dir_history = []
-var segment_node: CharacterBody2D
-
-var head_collision_shape: CollisionShape2D
-var segment_collision_shapes: Array = []
-
+var segment_scene = preload("res://scenes/Segment.tscn")
+var s
 func _ready():
-	segment_node = get_node("../Segment")
+	for i in range(num_segments):
+		s = segment_scene.instantiate()
+		segments.append(s)
+		call_deferred("add_sibling", s)
+	for i in range(segments.size()):
+		print("asd:",segments[i], i)
 
-# Called when the node enters the scene tree for the first time
-	# Assuming the trail sprite is a child of the player node
 var dir
 func get_input():
 	var input_direction = Input.get_vector("Left", "Right", "Up", "Down")
@@ -41,9 +39,14 @@ func _physics_process(delta):
 		position_history.pop_front()
 		dir_history.pop_front()
 
-	if position_history.size() > (num_segments)*delay_frames:
-		segment_node.position = position_history[(num_segments)*delay_frames]
-		segment_node.rotation = dir_history[(num_segments)*delay_frames].angle()
+	for i in range(num_segments):
+		if position_history.size() > (num_segments)*delay_frames:
+			segments[i].position = position_history[(num_segments-i)*delay_frames]
+			segments[i].rotation = dir_history[(num_segments-i)*delay_frames].angle()
+		elif position_history.size() > (i+1)*delay_frames:
+			segments[i].position = position_history[(position_history.size()%delay_frames)]
+			segments[i].rotation = dir_history[position_history.size()%delay_frames].angle()
+			
 		
 	if dir.length() > 0:  # Ensure there's movement
 		rotation = dir.angle()
