@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=7 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/player_movement.gd" id="1_rhkjq"]
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="2_bejli"]
@@ -7,12 +7,16 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wbe"]
 radius = 34.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_yjjee"]
+radius = 34.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_hpr6u"]
 radius = 82.2982
 
 [node name="Map1" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(75, 0)
 script = ExtResource("1_rhkjq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
@@ -23,12 +27,17 @@ texture = ExtResource("2_bejli")
 hframes = 4
 vframes = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CircleShape2D_67wbe")
-
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
-[node name="MoveToPos_Debog" type="Sprite2D" parent="."]
+[node name="Area2D" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+shape = SubResource("CircleShape2D_67wbe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_yjjee")
+
+[node name="MoveToPos_Debug" type="Sprite2D" parent="."]
 texture = ExtResource("2_bejli")
 hframes = 4
 vframes = 20
