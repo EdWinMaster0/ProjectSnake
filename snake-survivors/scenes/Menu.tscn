@@ -1,42 +1,87 @@
-[gd_scene load_steps=2 format=3 uid="uid://txbaqnqppbdl"]
+[gd_scene load_steps=4 format=3 uid="uid://bxty0dvj5db3"]
 
-[ext_resource type="Script" path="res://button_script.gd" id="1_gp60w"]
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_1ira0"]
+
+[sub_resource type="SystemFont" id="SystemFont_aforx"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3pck"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -187.0
-offset_top = -117.0
-offset_right = 187.0
-offset_bottom = 117.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 40
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 378.0
+offset_top = 116.0
+offset_right = 771.0
+offset_bottom = 334.0
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 60
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_shadow_color = Color(9.62615e-07, 0.507061, 0.0944665, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_constants/shadow_offset_y = 9
+theme_override_constants/outline_size = 24
+theme_override_fonts/font = SubResource("SystemFont_aforx")
+theme_override_font_sizes/font_size = 64
+text = "Snake Survivor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = " "
+theme_override_constants/separation = 60
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l3pck")
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Start" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Start"
-script = ExtResource("1_gp60w")
+script = ExtResource("1_1ira0")
 
-[node name="Button2" type="Button" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 60
-text = "Exit Game"
+theme_override_constants/separation = 13
 
-[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button" method="_on_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="VBoxContainer/Button" method="_on_exit_pressed"]
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+script = ExtResource("1_1ira0")
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("1_1ira0")
+
+[node name="HSeparator5" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start" to="MarginContainer/VBoxContainer/Start" method="_on_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="MarginContainer/VBoxContainer/Start" method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="MarginContainer/VBoxContainer/Start" method="_on_quit_pressed"]
