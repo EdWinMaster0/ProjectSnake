@@ -25,17 +25,28 @@ func _physics_process(delta):
 	if position.distance_to(player_position) > 3:
 		move_and_slide()
 		look_at(player_position)
+	if health <= 0:
+		GlobalVariables.exp += int(damage)
+		while GlobalVariables.exp >= GlobalVariables.exp_cap:
+			GlobalVariables.exp -= GlobalVariables.exp_cap
+			GlobalVariables.level += 1
+			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
+		queue_free()
 		
 
 func _on_timer_timeout() -> void:
 	canhit= true
-	$Sprite2D.modulate = Color(1, 1, 1)
+	player.modulate = Color(1, 1, 1)
+	for i in range(player.segments.size()):
+		player.segments[i].get_child(0).modulate = Color(1, 1, 1) 
 	if isin == true:
 		if canhit:
 			$Hurtbox/Timer.start()
 			canhit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
-			$Sprite2D.modulate = Color(5, 0, 0)
+			player.modulate = Color(3, 0, 0)
+			for i in range(player.segments.size()):
+				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
@@ -45,7 +56,9 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 			$Hurtbox/Timer.start()
 			canhit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
-			$Sprite2D.modulate = Color(5, 0, 0)
+			player.modulate = Color(3, 0, 0)
+			for i in range(player.segments.size()):
+				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 			
 func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false

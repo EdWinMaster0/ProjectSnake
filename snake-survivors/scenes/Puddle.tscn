@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://fdjjvp0l07kq"]
+[gd_scene load_steps=10 format=3 uid="uid://fdjjvp0l07kq"]
 
+[ext_resource type="Script" path="res://scenes/puddle.gd" id="1_25348"]
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_eqn2n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v2c0q"]
@@ -50,7 +51,8 @@ radius = 38.0132
 
 [node name="Puddle" type="Area2D"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 4
+script = ExtResource("1_25348")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(5, 5)
@@ -60,3 +62,6 @@ frame_progress = 0.260857
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_t4j0o")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

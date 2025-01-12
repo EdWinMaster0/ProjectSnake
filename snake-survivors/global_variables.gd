@@ -2,6 +2,7 @@ extends Node
 
 @export var health = 300
 @export var max_health = 300
+@export var damage = 100
 @export var exp = 0
 @export var level = 1
 @export var exp_cap = 50
