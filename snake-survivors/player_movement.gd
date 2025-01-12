@@ -8,6 +8,10 @@ var position_history = []
 var dir_history = []
 var segment_scene = preload("res://scenes/Segment.tscn")
 var projectile_scene = preload("res://scenes/Projectile.tscn")
+
+var timeout = 1
+var can_shoot = true
+
 func _ready():
 	for i in range(num_segments):
 		var s = segment_scene.instantiate()
@@ -35,11 +39,21 @@ func _physics_process(delta):
 		for i in range(segments.size()):
 			segments[i].z_index +=1
 		z_index += 1
+
 	
-	if Input.is_action_just_pressed("Action"):
+	# Venom shot cooldown
+	timeout -= delta
+	if timeout <=0:
+		can_shoot = true
+		
+	if Input.is_action_just_pressed("Action") && can_shoot == true:
 		var proj = projectile_scene.instantiate()
 		call_deferred("add_sibling", proj)
 		proj.position = position + dir_history[dir_history.size() - 1] * 30
+		can_shoot = false
+		timeout = 1
+		
+		
 	
 	if position != position_history.back():
 		position_history.append(position)

@@ -21,6 +21,7 @@ func _ready() -> void:
 	velocity = transform.x * speed
 
 func _physics_process(delta):
+	
 	# Apply deceleration: reduce the velocity towards zero
 	if velocity.length() > 0:  # only decelerate if there's movement
 		velocity = velocity.move_toward(Vector2.ZERO, deceleration * delta)
@@ -47,3 +48,6 @@ func create_puddle() -> void:
 		var oldest_puddle = puddles.pop_front()  # Remove the first puddle from the list
 		if oldest_puddle:  # Ensure it's valid before freeing
 			oldest_puddle.queue_free()
+
+
+		

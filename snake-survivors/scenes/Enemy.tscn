@@ -1,18 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://buo1luci0ugne"]
+[gd_scene load_steps=3 format=3 uid="uid://buo1luci0ugne"]
 
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_8qms3"]
-[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_swfbk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikmoj"]
 radius = 40.05
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fgxm1"]
-radius = 57.0789
-
 [node name="Enemy" type="CharacterBody2D"]
-collision_layer = 5
-collision_mask = 4
-script = ExtResource("1_swfbk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -24,16 +17,3 @@ frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ikmoj")
-
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CircleShape2D_fgxm1")
-
-[node name="Timer" type="Timer" parent="Hurtbox"]
-
-[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
-[connection signal="body_exited" from="Hurtbox" to="." method="_on_hurtbox_body_exited"]
-[connection signal="timeout" from="Hurtbox/Timer" to="." method="_on_timer_timeout"]

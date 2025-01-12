@@ -1,17 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=11 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="2_bejli"]
 [ext_resource type="Script" path="res://movespritetopositionyouwanttosee_script.gd" id="3_amgmp"]
+[ext_resource type="PackedScene" uid="uid://bibel2bcyq8qj" path="res://scenes/Exp.tscn" id="5_3es2m"]
 [ext_resource type="Texture2D" uid="uid://bumg80kq5yst" path="res://assets/Sprite-0003.png" id="6_4e3i7"]
 [ext_resource type="Texture2D" uid="uid://dy1ssnj0pn7tm" path="res://assets/Sprite-0002.png" id="7_8g0k3"]
-[ext_resource type="Script" path="res://scenes/progress.gd" id="8_2gyd6"]
-[ext_resource type="Script" path="res://scenes/ui_hp.gd" id="9_7rcld"]
-[ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="9_uaps2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wbe"]
-radius = 41.3038
+radius = 34.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yjjee"]
 radius = 34.0
@@ -19,20 +17,11 @@ radius = 34.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_hpr6u"]
 radius = 82.2982
 
-[sub_resource type="LabelSettings" id="LabelSettings_6quj2"]
-font = ExtResource("9_uaps2")
-font_size = 60
-
-[sub_resource type="LabelSettings" id="LabelSettings_7swuf"]
-font = ExtResource("9_uaps2")
-font_size = 100
-
 [node name="Map1" type="Node2D"]
 script = ExtResource("1_2tae0")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(75, 0)
-collision_layer = 13
 script = ExtResource("1_rhkjq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
@@ -46,8 +35,6 @@ vframes = 20
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
 [node name="Area2D" type="Area2D" parent="Player"]
-collision_layer = 4
-collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
 shape = SubResource("CircleShape2D_67wbe")
@@ -59,7 +46,6 @@ shape = SubResource("CircleShape2D_yjjee")
 position = Vector2(31, 0)
 
 [node name="MoveToPos_Debug" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(105, 0)
 texture = ExtResource("2_bejli")
 hframes = 4
@@ -80,8 +66,6 @@ frame = 1
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(260, 146)
-collision_layer = 0
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CircleShape2D_hpr6u")
@@ -93,83 +77,43 @@ hframes = 4
 vframes = 20
 frame = 4
 
+[node name="Exp" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(504, 184)
+
+[node name="Exp2" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(391, 341)
+
+[node name="Exp3" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(635, 61)
+
+[node name="Exp4" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(655, 266)
+
+[node name="Exp5" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(600, 173)
+
+[node name="Exp6" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(494, 298)
+
+[node name="Exp7" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(525, 86)
+
+[node name="Exp8" parent="." instance=ExtResource("5_3es2m")]
+position = Vector2(742, 163)
+
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="ProgressBorder" type="NinePatchRect" parent="UI"]
-anchors_preset = 7
-anchor_left = 0.5
+[node name="TextureProgressBar" type="TextureProgressBar" parent="UI"]
+visible = false
+texture_repeat = 2
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -314.0
-offset_top = -116.0
-offset_right = -224.0
-offset_bottom = -99.9999
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(7, 7)
-size_flags_horizontal = 4
-texture = ExtResource("6_4e3i7")
-region_rect = Rect2(0, 0, 48, 16)
-patch_margin_left = 16
-patch_margin_right = 16
-axis_stretch_horizontal = 1
-
-[node name="Progress" type="NinePatchRect" parent="UI/ProgressBorder"]
-layout_mode = 0
-offset_right = 90.0
-offset_bottom = 16.0
-size_flags_horizontal = 4
-texture = ExtResource("7_8g0k3")
-region_rect = Rect2(0, 0, 48, 16)
-patch_margin_left = 16
-patch_margin_right = 16
-axis_stretch_horizontal = 1
-script = ExtResource("8_2gyd6")
-
-[node name="Exp" type="Label" parent="UI"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -104.0
-offset_top = -106.0
-offset_right = 104.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "asd"
-label_settings = SubResource("LabelSettings_6quj2")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Level" type="Label" parent="UI/Exp"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -104.0
-offset_top = -182.0
-offset_right = 104.0
-offset_bottom = -76.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "asd"
-label_settings = SubResource("LabelSettings_6quj2")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Hp" type="Label" parent="UI"]
-anchors_preset = 1
-anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -656.0
-offset_bottom = 111.0
-grow_horizontal = 0
-text = "asd"
-label_settings = SubResource("LabelSettings_7swuf")
-horizontal_alignment = 2
-vertical_alignment = 1
-script = ExtResource("9_7rcld")
+anchor_bottom = 1.0
+offset_top = -89.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+nine_patch_stretch = true
+texture_under = ExtResource("6_4e3i7")
+texture_progress = ExtResource("7_8g0k3")
