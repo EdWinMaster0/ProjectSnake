@@ -7,10 +7,12 @@ var deceleration = 600
 # Velocity vector for the projectile
 var velocity = Vector2()
 
+# Puddle scene to be loaded (ensure you've preloaded the scene)
+var puddle_scene = preload("res://scenes/Puddle.tscn")
+
 func _ready() -> void:
 	# Point the projectile towards the mouse
 	look_at(get_global_mouse_position())
-
 	
 	# Initialize velocity to move in the direction the projectile is facing
 	velocity = transform.x * speed
@@ -25,4 +27,10 @@ func _physics_process(delta):
 
 	# Optionally, destroy the projectile when it's almost stopped
 	if velocity.length() < 1:
+		# Create the puddle node after the animation ends (when projectile stops moving)
+		var puddle = puddle_scene.instantiate()
+		get_parent().add_child(puddle)  # Add the puddle to the same parent as the projectile
+		puddle.position = position  # Set the puddle at the current position of the projectile
+		
+		# Optionally, destroy the projectile after puddle is created
 		queue_free()
