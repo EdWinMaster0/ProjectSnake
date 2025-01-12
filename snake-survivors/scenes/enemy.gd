@@ -6,12 +6,14 @@ var player_position
 var target_position
 var damage = 100
 var player
+var tail
 var canhit = true
 var isin = false
 # Get a reference to the player. It's likely different in your project
 
 func _ready() -> void:
 	player = get_parent().get_node("Player")
+	tail = get_parent().get_node("Tail")
  
 func _physics_process(delta):
 	
@@ -37,6 +39,7 @@ func _physics_process(delta):
 func _on_timer_timeout() -> void:
 	canhit= true
 	player.modulate = Color(1, 1, 1)
+	tail.modulate = Color(1, 1, 1)
 	for i in range(player.segments.size()):
 		player.segments[i].get_child(0).modulate = Color(1, 1, 1) 
 	if isin == true:
@@ -45,6 +48,7 @@ func _on_timer_timeout() -> void:
 			canhit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
 			player.modulate = Color(3, 0, 0)
+			tail.modulate = Color(3, 0, 0)
 			for i in range(player.segments.size()):
 				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
@@ -57,6 +61,7 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 			canhit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
 			player.modulate = Color(3, 0, 0)
+			tail.modulate = Color(3, 0, 0)
 			for i in range(player.segments.size()):
 				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 			

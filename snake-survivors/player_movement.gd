@@ -5,7 +5,9 @@ extends CharacterBody2D
 @export var delay_frames = 12  # speed 200 => 24, speed 400=> 12
 var segments = []
 var position_history = []
+var tail_pos: Vector2
 var dir_history = []
+var tail_dir: Vector2
 var segment_scene = preload("res://scenes/Segment.tscn")
 var projectile_scene = preload("res://scenes/Projectile.tscn")
 
@@ -20,6 +22,8 @@ func _ready():
 		call_deferred("add_sibling", s)
 	z_index = num_segments+1
 	GlobalVariables.level = num_segments -2
+	tail_pos = position
+	tail_dir = Vector2(1, 0)
 
 var dir
 func get_input():
@@ -60,9 +64,11 @@ func _physics_process(delta):
 		dir_history.append(dir)
 
 	if position_history.size() > delay_frames * (num_segments + 1):
+		tail_pos = position_history[2]
 		position_history.pop_front()
+		tail_dir = dir_history[2]
 		dir_history.pop_front()
-
+		
 	for i in range(num_segments):
 		if position_history.size() > (num_segments)*delay_frames:
 			segments[i].position = position_history[(num_segments-i)*delay_frames]
@@ -72,6 +78,8 @@ func _physics_process(delta):
 			segments[i].rotation = dir_history[position_history.size()-(i+1)*delay_frames].angle()
 		else:
 			segments[i].position = position
+	$"../Tail".position = tail_pos
+	$"../Tail".rotation = tail_dir.angle()
 		
 	if dir.length() > 0:
 		rotation = dir.angle()
