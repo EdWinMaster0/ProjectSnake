@@ -1,42 +1,84 @@
-[gd_scene load_steps=2 format=3 uid="uid://txbaqnqppbdl"]
+[gd_scene load_steps=6 format=3 uid="uid://bxty0dvj5db3"]
 
-[ext_resource type="Script" path="res://button_script.gd" id="1_gp60w"]
+[ext_resource type="Script" path="res://menu.gd" id="1_1ira0"]
+[ext_resource type="Texture2D" uid="uid://drpxmxf1o16uy" path="res://assets/Snake Survival.png" id="1_yht06"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5at2e"]
+
+[sub_resource type="FontFile" id="FontFile_8pmig"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7bvi"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -187.0
-offset_top = -117.0
-offset_right = 187.0
-offset_bottom = 117.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 40
+[node name="Háttér" type="Sprite2D" parent="."]
+position = Vector2(576, 325)
+texture = ExtResource("1_yht06")
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Gombok" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 479.0
+offset_top = 454.0
+offset_right = 872.0
+offset_bottom = 687.0
+scale = Vector2(0.536924, 1.12998)
+
+[node name="Gombok" type="VBoxContainer" parent="Gombok"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 60
+
+[node name="Start" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 26
 text = "Start"
-script = ExtResource("1_gp60w")
+script = ExtResource("1_1ira0")
 
-[node name="Button2" type="Button" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Gombok/Gombok"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 60
-text = "Exit Game"
+theme_override_constants/separation = 7
+theme_override_styles/separator = SubResource("StyleBoxTexture_5at2e")
 
-[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button" method="_on_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="VBoxContainer/Button" method="_on_exit_pressed"]
+[node name="Options" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_8pmig")
+theme_override_font_sizes/font_size = 26
+text = "Options"
+script = ExtResource("1_1ira0")
+
+[node name="HSeparator2" type="HSeparator" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_constants/separation = 7
+theme_override_styles/separator = SubResource("StyleBoxFlat_p7bvi")
+
+[node name="Quit" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Quit"
+script = ExtResource("1_1ira0")
+
+[connection signal="pressed" from="Gombok/Gombok/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Start" to="Gombok/Gombok/Start" method="_on_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Options" to="Gombok/Gombok/Start" method="_on_options_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Quit" to="Gombok/Gombok/Start" method="_on_quit_pressed"]

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://buo1luci0ugne"]
+
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_8qms3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikmoj"]
+radius = 40.05
+
+[node name="Enemy" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("1_8qms3")
+hframes = 4
+vframes = 20
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ikmoj")
