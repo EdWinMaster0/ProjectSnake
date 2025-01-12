@@ -7,6 +7,8 @@
 height = 44.0
 
 [node name="Projectile" type="Area2D"]
+linear_damp = 100.0
+angular_damp = 100.0
 script = ExtResource("1_kfr6m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -18,4 +20,5 @@ vframes = 20
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_t6650")

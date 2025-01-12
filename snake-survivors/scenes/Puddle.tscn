@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://fdjjvp0l07kq"]
+
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_eqn2n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4j0o"]
+radius = 36.0555
+
+[node name="Puddle" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("1_eqn2n")
+hframes = 4
+vframes = 20
+frame = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t4j0o")
