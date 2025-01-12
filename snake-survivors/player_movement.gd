@@ -40,7 +40,6 @@ func _physics_process(delta):
 		var proj = projectile_scene.instantiate()
 		call_deferred("add_sibling", proj)
 		proj.position = position + dir_history[dir_history.size() - 1] * 30
-		GlobalVariables.level +=1
 	
 	if position != position_history.back():
 		position_history.append(position)
