@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed = 100 
+@export var health = 100
 var player_position
 var target_position
 var damage = 100

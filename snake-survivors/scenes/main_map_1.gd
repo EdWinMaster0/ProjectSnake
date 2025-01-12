@@ -20,8 +20,16 @@ func _process(delta: float) -> void:
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)
+		var r = randf_range(0.5, 2)
+		e.health *= r
+		e.scale *= r
 		call_deferred("add_child", e)
-		e.position = Vector2(randf_range(-100, 100), randf_range(-100, 100))
+		e.position = Vector2(randf_range(-1000, 1000), randf_range(-1000, 1000))
+	if randf_range(0, 100) < exp_spawn_rate and exps.size() <= max_exp_count:
+		var x = exp_scene.instantiate()
+		exps.append(x)
+		call_deferred("add_child", x)
+		x.position = Vector2(randf_range(-500, 500), randf_range(-500, 500))
 	if GlobalVariables.health <= 0:
 		get_tree().change_scene_to_file("res://scenes/Death.tscn")
 	elif  GlobalVariables.health < GlobalVariables.max_health:
@@ -30,4 +38,7 @@ func _process(delta: float) -> void:
 			counter = 0
 		else:
 			counter +=1
+	for i in range(exps.size()-1):
+		if !is_instance_valid(exps[i]):
+			exps.remove_at(i)
 	
