@@ -55,7 +55,7 @@ func _physics_process(delta):
 		
 		
 	
-	if position != position_history.back():
+	if position_history.is_empty() or position != position_history.back():
 		position_history.append(position)
 		dir_history.append(dir)
 
