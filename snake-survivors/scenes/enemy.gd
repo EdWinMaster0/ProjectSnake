@@ -1,0 +1,50 @@
+extends CharacterBody2D
+
+@export var speed = 100 
+var player_position
+var target_position
+var damage = 100
+var player
+var canhit = true
+var isin = false
+# Get a reference to the player. It's likely different in your project
+
+func _ready() -> void:
+	player = get_parent().get_node("Player")
+ 
+func _physics_process(delta):
+	
+	# Set player_position to the position of the player node
+	player_position = player.position
+	# Calculate the target position
+	target_position = (player_position - position).normalized()
+ 
+	velocity = target_position * speed
+	# Check if the enemy is in a 3px range of the player, if not move to the target position
+	if position.distance_to(player_position) > 3:
+		move_and_slide()
+		look_at(player_position)
+		
+
+func _on_timer_timeout() -> void:
+	canhit= true
+	$Sprite2D.modulate = Color(1, 1, 1)
+	if isin == true:
+		if canhit:
+			$Hurtbox/Timer.start()
+			canhit = false
+			GlobalVariables.health -= damage/GlobalVariables.defense
+			$Sprite2D.modulate = Color(5, 0, 0)
+
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		isin = true
+		if canhit:
+			$Hurtbox/Timer.start()
+			canhit = false
+			GlobalVariables.health -= damage/GlobalVariables.defense
+			$Sprite2D.modulate = Color(5, 0, 0)
+			
+func _on_hurtbox_body_exited(body: Node2D) -> void:
+	isin = false

@@ -1,0 +1,81 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3kjty8dvxj44"]
+
+[ext_resource type="Texture2D" uid="uid://drpxmxf1o16uy" path="res://assets/Snake Survival.png" id="1_c4d0f"]
+[ext_resource type="Texture2D" uid="uid://dy1ssnj0pn7tm" path="res://assets/Sprite-0002.png" id="3_r8o6a"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ucga"]
+
+[sub_resource type="FontFile" id="FontFile_fbysl"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgkci"]
+
+[node name="Death" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Háttér" type="Sprite2D" parent="."]
+position = Vector2(576, 325)
+texture = ExtResource("1_c4d0f")
+
+[node name="Gombok" type="MarginContainer" parent="."]
+offset_left = 479.0
+offset_top = 454.0
+offset_right = 872.0
+offset_bottom = 687.0
+scale = Vector2(0.536924, 1.12998)
+
+[node name="Gombok" type="VBoxContainer" parent="Gombok"]
+layout_mode = 2
+
+[node name="Start" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 26
+text = "u ded"
+
+[node name="HSeparator" type="HSeparator" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_constants/separation = 7
+theme_override_styles/separator = SubResource("StyleBoxTexture_0ucga")
+
+[node name="Options" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_fbysl")
+theme_override_font_sizes/font_size = 26
+text = "Options"
+
+[node name="HSeparator2" type="HSeparator" parent="Gombok/Gombok/Options"]
+layout_mode = 2
+offset_top = 48.0
+offset_right = 393.0
+offset_bottom = 55.0
+theme_override_constants/separation = 7
+theme_override_styles/separator = SubResource("StyleBoxFlat_lgkci")
+
+[node name="Quit" type="Button" parent="Gombok/Gombok"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Quit"
+
+[node name="Sprite-0002" type="Sprite2D" parent="Gombok/Gombok"]
+position = Vector2(225.358, -100.887)
+scale = Vector2(71.2391, 2.76554)
+texture = ExtResource("3_r8o6a")
+
+[connection signal="pressed" from="Gombok/Gombok/Start" to="Gombok/Gombok/Start" method="_on_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Options" to="Gombok/Gombok/Start" method="_on_options_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Quit" to="Gombok/Gombok/Start" method="_on_quit_pressed"]
