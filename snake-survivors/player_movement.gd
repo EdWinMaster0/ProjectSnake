@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed = 400
 @export var num_segments = 3
-@export var delay_frames = 12  # speed 200 => 24, speed 400=> 12
+var delay_frames = (4800 / speed)  # speed 200 => 24, speed 400=> 12
 var segments = []
 var position_history = []
 var tail_pos: Vector2
@@ -33,8 +33,11 @@ func get_input():
 	dir = input_direction
 
 func _physics_process(delta):
-	get_input()
+	if get_parent().is_in_menu == false:
+		get_input()
 	move_and_slide()
+	
+	delay_frames = (4800 / speed)/Engine.time_scale
 	
 	while GlobalVariables.level > num_segments-2:
 		num_segments += 1
@@ -84,7 +87,7 @@ func _physics_process(delta):
 		elif position_history.size() > (i+1)*delay_frames:
 			segments[i].position = position_history[position_history.size()-(i+1)*delay_frames]
 			segments[i].rotation = dir_history[position_history.size()-(i+1)*delay_frames].angle()
-		else:
+		elif get_parent().is_in_menu == false:
 			segments[i].position = position
 	$"../Tail".position = tail_pos
 	$"../Tail".rotation = tail_dir.angle()
