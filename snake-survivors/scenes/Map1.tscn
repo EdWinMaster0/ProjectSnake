@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=19 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scenes/progress.gd" id="8_2gyd6"]
 [ext_resource type="Script" path="res://scenes/ui_hp.gd" id="9_7rcld"]
 [ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="9_uaps2"]
+[ext_resource type="Script" path="res://scenes/update.gd" id="10_41hkd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wbe"]
 radius = 41.3038
@@ -24,6 +25,10 @@ font = ExtResource("9_uaps2")
 font_size = 60
 
 [sub_resource type="LabelSettings" id="LabelSettings_7swuf"]
+font = ExtResource("9_uaps2")
+font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_1y0au"]
 font = ExtResource("9_uaps2")
 font_size = 100
 
@@ -183,6 +188,12 @@ horizontal_alignment = 2
 vertical_alignment = 1
 script = ExtResource("9_7rcld")
 
+[node name="Timer" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "00:00"
+label_settings = SubResource("LabelSettings_1y0au")
+
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2(5, 5)
 tile_set = SubResource("TileSet_biip5")
@@ -198,3 +209,9 @@ texture = ExtResource("2_bejli")
 hframes = 4
 vframes = 20
 frame = 2
+
+[node name="Update" type="Timer" parent="."]
+autostart = true
+script = ExtResource("10_41hkd")
+
+[connection signal="timeout" from="Update" to="Update" method="_on_timeout"]

@@ -10,6 +10,7 @@ var dir_history = []
 var tail_dir: Vector2
 var segment_scene = preload("res://scenes/Segment.tscn")
 var projectile_scene = preload("res://scenes/Projectile.tscn")
+var stay_red_counter = -1
 
 var timeout = 1
 var can_shoot = true
@@ -57,7 +58,14 @@ func _physics_process(delta):
 		can_shoot = false
 		timeout = 1
 		
-		
+	if stay_red_counter == 0:
+		modulate = Color(1, 1, 1)
+		$"../Tail".modulate = Color(1, 1, 1)
+		for i in range(segments.size()):
+			segments[i].get_child(0).modulate = Color(1, 1, 1) 
+		stay_red_counter -= 1
+	elif stay_red_counter > 0:
+		stay_red_counter -= 1
 	
 	if position_history.is_empty() or position != position_history.back():
 		position_history.append(position)

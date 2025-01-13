@@ -58,6 +58,7 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		isin = true
 		if canhit:
 			$Hurtbox/Timer.start()
+			player.stay_red_counter = 60
 			canhit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
 			player.modulate = Color(3, 0, 0)
