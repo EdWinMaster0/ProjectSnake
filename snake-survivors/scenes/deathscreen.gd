@@ -5,10 +5,7 @@ extends Button
 
 
 func _on_pressed() -> void:
-	GlobalVariables.health = GlobalVariables.max_health
-	GlobalVariables.level = 1
-	GlobalVariables.exp = 0
-	GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
+	GlobalVariables._reset()
 	get_tree().change_scene_to_file("res://scenes/Map1.tscn")
 
 

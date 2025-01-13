@@ -3,6 +3,7 @@ extends Control
 
 
 func _on_pressed() -> void:
+	GlobalVariables._reset()
 	get_tree().change_scene_to_file("res://scenes/Map1.tscn")
 
 

@@ -8,6 +8,7 @@ var enemies =[]
 var exps =[]
 var enemy_scene = preload("res://scenes/Enemy.tscn")
 var exp_scene = preload("res://scenes/Exp.tscn")
+var proj_script = preload("res://projectile.gd")
 var counter = 0
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +43,7 @@ func _process(delta: float) -> void:
 		call_deferred("add_child", x)
 		x.position = Vector2(randf_range(-500, 500), randf_range(-500, 500))
 	if GlobalVariables.health <= 0:
+		proj_script.puddles = []
 		get_tree().change_scene_to_file("res://scenes/Death.tscn")
 	elif  GlobalVariables.health < GlobalVariables.max_health:
 		if counter >= 60/GlobalVariables.hps_regen:
