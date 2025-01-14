@@ -1,0 +1,155 @@
+[gd_scene load_steps=18 format=3 uid="uid://fdjjvp0l07kq"]
+
+[ext_resource type="Script" path="res://scenes/puddle.gd" id="1_25348"]
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_eqn2n"]
+
+[sub_resource type="Animation" id="Animation_qxd3a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3owis"]
+resource_name = "Puddle"
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_ajyo5"]
+resource_name = "Splash"
+length = 0.40001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4i0y2"]
+_data = {
+"Puddle": SubResource("Animation_3owis"),
+"RESET": SubResource("Animation_qxd3a"),
+"Splash": SubResource("Animation_ajyo5")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4j0o"]
+radius = 38.0132
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21qde"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(0, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77850"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(16, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovxdj"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(32, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q76vg"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(48, 176, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbage"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uer7"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(16, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cyjq"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xu5f"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(48, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgscy"]
+atlas = ExtResource("1_eqn2n")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_afdeu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21qde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77850")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovxdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q76vg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbage")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uer7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cyjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xu5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgscy")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Puddle" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_25348")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4i0y2")
+}
+autoplay = "Puddle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t4j0o")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_afdeu")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
