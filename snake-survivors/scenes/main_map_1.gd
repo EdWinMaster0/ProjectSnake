@@ -46,12 +46,12 @@ func _process(delta: float) -> void:
 		e.name = str("Enemy", enemy_num)
 		enemy_num += 1
 		call_deferred("add_child", e)
-		e.position = Vector2(randf_range(-1000, 1000), randf_range(-1000, 1000))
+		e.position = Vector2(randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y), randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y))
 	if randf_range(0, 100) < exp_spawn_rate and exps.size() <= max_exp_count and is_in_menu == false:
 		var x = exp_scene.instantiate()
 		exps.append(x)
 		call_deferred("add_child", x)
-		x.position = Vector2(randf_range(-500, 500), randf_range(-500, 500))
+		x.position = Vector2(randf_range(-500 + $Player.position.x, 500 + $Player.position.y), randf_range(-500 + $Player.position.x, 500 + $Player.position.y))
 	if GlobalVariables.health <= 0:
 		proj_script.puddles = []
 		get_tree().change_scene_to_file("res://scenes/Death.tscn")

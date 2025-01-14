@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
 		for enemy in enemies:
 			if DoT_trigger == DoT_interval: # Apply damage periodically
 				if "health" in enemy:
-					enemy.health -= 1
+					enemy.health -= 1 * Engine.time_scale
 					enemy.modulate = Color(5, 0, 0) # Indicate damage visually
 				DoT_trigger = 0
 			else:

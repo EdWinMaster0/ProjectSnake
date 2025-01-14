@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=21 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
@@ -32,6 +32,10 @@ font_size = 100
 [sub_resource type="LabelSettings" id="LabelSettings_1y0au"]
 font = ExtResource("9_uaps2")
 font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_8npu8"]
+font = ExtResource("9_uaps2")
+font_size = 60
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m8vld"]
 texture = ExtResource("2_bejli")
@@ -195,20 +199,41 @@ offset_bottom = 23.0
 text = "00:00"
 label_settings = SubResource("LabelSettings_1y0au")
 
-[node name="PauseMenu" type="NinePatchRect" parent="UI"]
+[node name="PauseMenu" type="Control" parent="UI"]
 visible = false
-anchors_preset = 8
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="UI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -338.0
-offset_top = -236.0
-offset_right = -270.0
-offset_bottom = -197.0
+offset_left = 425.5
+offset_top = 100.0
+offset_right = 686.5
+offset_bottom = 175.0
 grow_horizontal = 2
-grow_vertical = 2
+text = "Menu"
+label_settings = SubResource("LabelSettings_8npu8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" type="NinePatchRect" parent="UI/PauseMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 57.0
+offset_top = 22.0
+offset_right = 157.0
+offset_bottom = 79.0
+grow_horizontal = 2
 scale = Vector2(10, 10)
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("10_x75dy")
 patch_margin_left = 16
 patch_margin_top = 16
