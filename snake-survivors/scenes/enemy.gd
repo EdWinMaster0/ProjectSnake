@@ -52,19 +52,26 @@ func _on_timer_timeout() -> void:
 			for i in range(player.segments.size()):
 				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
+func deal_damage(def:float):
+	isin = true
+	if canhit:
+		$Hurtbox/Timer.start()
+		player.stay_red_counter = 60
+		canhit = false
+		GlobalVariables.health -= int(damage/def)
+		player.modulate = Color(3, 0, 0)
+		tail.modulate = Color(3, 0, 0)
+		for i in range(player.segments.size()):
+			player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
+
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		isin = true
-		if canhit:
-			$Hurtbox/Timer.start()
-			player.stay_red_counter = 60
-			canhit = false
-			GlobalVariables.health -= damage/GlobalVariables.defense
-			player.modulate = Color(3, 0, 0)
-			tail.modulate = Color(3, 0, 0)
-			for i in range(player.segments.size()):
-				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
+		print(body.name, " entered")
+		deal_damage(GlobalVariables.defense)
+	elif body.name.contains("Segment"):
+		print(body.name, " entered")
+		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
 			
 func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false

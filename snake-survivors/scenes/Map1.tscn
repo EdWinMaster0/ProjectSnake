@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=20 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scenes/ui_hp.gd" id="9_7rcld"]
 [ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="9_uaps2"]
 [ext_resource type="Script" path="res://scenes/update.gd" id="10_41hkd"]
+[ext_resource type="Texture2D" uid="uid://dbbpw85wecb3j" path="res://assets/options.png" id="10_x75dy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_67wbe"]
 radius = 41.3038
@@ -193,6 +194,28 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "00:00"
 label_settings = SubResource("LabelSettings_1y0au")
+
+[node name="PauseMenu" type="NinePatchRect" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -338.0
+offset_top = -236.0
+offset_right = -270.0
+offset_bottom = -197.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)
+texture = ExtResource("10_x75dy")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2(5, 5)

@@ -24,9 +24,11 @@ func _process(delta: float) -> void:
 		if is_in_menu == true:
 			is_in_menu = false
 			Engine.time_scale = 1
+			$UI/PauseMenu.hide()
 		else:
 			is_in_menu = true
 			Engine.time_scale = 0
+			$UI/PauseMenu.show()
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)

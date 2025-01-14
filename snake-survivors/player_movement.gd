@@ -20,6 +20,7 @@ func _ready():
 		var s = segment_scene.instantiate()
 		segments.append(s)
 		s.z_index = num_segments-i
+		s.name = str("Segment", i)
 		call_deferred("add_sibling", s)
 	z_index = num_segments+1
 	GlobalVariables.level = num_segments -2
@@ -43,6 +44,7 @@ func _physics_process(delta):
 		num_segments += 1
 		var s = segment_scene.instantiate()
 		segments.append(s)
+		s.name = str("Segment", num_segments)
 		call_deferred("add_sibling", s)
 		for i in range(segments.size()):
 			segments[i].z_index +=1

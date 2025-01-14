@@ -1,17 +1,18 @@
 extends Node
 
-@export var health = 300
-@export var max_health = 300
+@export var max_health = 500
+@export var health = max_health
 @export var damage = 100
 @export var exp = 0
 @export var level = 1
 @export var exp_cap = 50
-@export var defense = 1
+@export var defense = 1.0
+@export var scale_toughness = 2.0
 @export var hps_regen = 20 #how much health every 60 frames
 
 func _reset() -> void:
-	health = 300
-	max_health = 300
+	max_health = 500
+	health = max_health
 	damage = 100
 	exp = 0
 	level = 1
