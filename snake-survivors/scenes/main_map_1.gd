@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var enemy_spawn_rate = 1.0
+@export var enemy_spawn_rate = 0.5
 @export var max_enemy_count = 10
 @export var exp_spawn_rate = 10.0
 @export var max_exp_count = 3
@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 			is_in_menu = true
 			Engine.time_scale = 0
 			$UI/PauseMenu.show()
-	if randf_range(0, 200) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
+	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)
 		var r = randf_range(0.5, 2)
