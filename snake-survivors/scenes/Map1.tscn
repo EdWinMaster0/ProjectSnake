@@ -27,7 +27,7 @@ font_size = 60
 
 [sub_resource type="LabelSettings" id="LabelSettings_7swuf"]
 font = ExtResource("9_uaps2")
-font_size = 100
+font_size = 70
 
 [sub_resource type="LabelSettings" id="LabelSettings_1y0au"]
 font = ExtResource("9_uaps2")
@@ -138,13 +138,15 @@ axis_stretch_horizontal = 1
 
 [node name="Progress" type="NinePatchRect" parent="UI/ProgressBorder"]
 layout_mode = 0
-offset_right = 90.0
-offset_bottom = 16.0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 80.0
+offset_bottom = 11.0
 size_flags_horizontal = 4
 texture = ExtResource("7_8g0k3")
-region_rect = Rect2(0, 0, 48, 16)
-patch_margin_left = 16
-patch_margin_right = 16
+region_rect = Rect2(0, 5, 28, 6)
+patch_margin_left = 6
+patch_margin_right = 6
 axis_stretch_horizontal = 1
 script = ExtResource("8_2gyd6")
 
@@ -186,14 +188,29 @@ vertical_alignment = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -656.0
-offset_bottom = 111.0
+offset_left = -517.0
+offset_top = 7.0
+offset_right = -17.0
+offset_bottom = 118.0
 grow_horizontal = 0
 text = "asd"
 label_settings = SubResource("LabelSettings_7swuf")
-horizontal_alignment = 2
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("9_7rcld")
+
+[node name="ProgressBar" type="TextureProgressBar" parent="UI/Hp"]
+show_behind_parent = true
+layout_mode = 0
+offset_top = -63.0
+offset_right = 500.0
+offset_bottom = 159.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("7_8g0k3")
+texture_progress = ExtResource("7_8g0k3")
+tint_under = Color(0.658824, 0.180392, 0.180392, 1)
+tint_progress = Color(2, 0, 0, 1)
 
 [node name="Timer" type="Label" parent="UI"]
 offset_right = 40.0

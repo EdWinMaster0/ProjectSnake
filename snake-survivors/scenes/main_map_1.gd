@@ -34,12 +34,13 @@ func _process(delta: float) -> void:
 		enemies.append(e)
 		var r = randf_range(0.5, 2)
 		if enemy_num % 20 == 0 and enemy_num != 0:
-			e.health *= 5
+			e.max_health *= 5
 			e.scale *= 5
 			e.damage *= 5
 			e.speed /= 3
+			e.is_boss = true
 		else:
-			e.health *= r
+			e.max_health *= r
 			e.scale *= r
 			e.damage *= r
 		e.damage = int(e.damage)
@@ -48,10 +49,13 @@ func _process(delta: float) -> void:
 		call_deferred("add_child", e)
 		e.position = Vector2(randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y), randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y))
 	if randf_range(0, 100) < exp_spawn_rate and exps.size() <= max_exp_count and is_in_menu == false:
-		var x = exp_scene.instantiate()
-		exps.append(x)
-		call_deferred("add_child", x)
-		x.position = Vector2(randf_range(-500 + $Player.position.x, 500 + $Player.position.y), randf_range(-500 + $Player.position.x, 500 + $Player.position.y))
+		var ex = exp_scene.instantiate()
+		exps.append(ex)
+		call_deferred("add_child", ex)
+		while ex.position == Vector2.ZERO:
+			var randpos = Vector2(randf_range(-700 + $Player.position.x, 700 + $Player.position.y), randf_range(-700 + $Player.position.x, 700 + $Player.position.y))
+			if 500 < abs($Player.position.x - randpos.x) and 500 < abs($Player.position.y - randpos.y):
+				ex.position = randpos
 	if GlobalVariables.health <= 0:
 		proj_script.puddles = []
 		get_tree().change_scene_to_file("res://scenes/Death.tscn")
@@ -64,7 +68,14 @@ func _process(delta: float) -> void:
 	for i in range(exps.size()-1):
 		if !is_instance_valid(exps[i]):
 			exps.remove_at(i)
+		elif abs($Player.position.x - exps[i].position.x) > 1000 or abs($Player.position.y - exps[i].position.y) > 1000:
+			exps[i].queue_free()
+			exps.remove_at(i)
 	for i in range(enemies.size()-1):
 		if !is_instance_valid(enemies[i]):
 			enemies.remove_at(i)
+		elif abs($Player.position.x - enemies[i].position.x) > 1000 or abs($Player.position.y - enemies[i].position.y) > 1000:
+			enemies[i].queue_free()
+			enemies.remove_at(i)
+	
 	

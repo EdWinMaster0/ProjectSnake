@@ -8,7 +8,10 @@ extends Node
 @export var exp_cap = 50
 @export var defense = 1.0
 @export var scale_toughness = 2.0
-@export var hps_regen = 20 #how much health every 60 frames
+@export var hps_regen = 5 #how much health every 60 frames
+@export var slow_factor = 0.5
+@export var poison_potency = 0.5
+@export var pierce = 1
 
 func _reset() -> void:
 	max_health = 500
@@ -19,6 +22,9 @@ func _reset() -> void:
 	exp_cap = 50
 	defense = 1
 	hps_regen = 20
+	slow_factor = 0.5
+	poison_potency = 0.5
+	pierce = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

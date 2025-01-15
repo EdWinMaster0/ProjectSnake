@@ -5,6 +5,7 @@ var deceleration = 600
 var velocity = Vector2()
 var countdown = []
 var enemy = []
+var until_pierce = 0
 
 var puddle_scene = preload("res://scenes/Puddle.tscn")
 
@@ -24,21 +25,21 @@ func _physics_process(delta):
 			countdown[i] -= 1
 		else:
 			if is_instance_valid(enemy[i]):
-				enemy[i].modulate = Color(1, 1, 1)
+				enemy[i].get_child(0).modulate = Color(1, 1, 1)
 			enemy.remove_at(i)
 			countdown.remove_at(i)
 	
 	position += velocity * delta
 
 	if velocity.length() < 1:
-		create_puddle()
+		create_puddle(position)
 		queue_free()
 
 
-func create_puddle() -> void:
+func create_puddle(pos: Vector2) -> void:
 	var puddle = puddle_scene.instantiate()
 	get_parent().add_child(puddle)
-	puddle.position = position
+	puddle.position = pos
 
 	puddles.append(puddle)
 	
@@ -49,7 +50,11 @@ func create_puddle() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name.contains("Enemy"):
+		until_pierce += 1
 		enemy.append(body)
 		body.health -= GlobalVariables.damage * randf_range(0.7, 1.3)
-		body.modulate = Color(5, 0, 0)
+		body.get_child(0).modulate = Color(5, 0, 0)
 		countdown.append(20)
+		if until_pierce == GlobalVariables.pierce:
+			create_puddle(body.position)
+			queue_free()
