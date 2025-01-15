@@ -25,8 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if "speed" in body and not body.has_meta("original_speed"):
 			body.set_meta("original_speed", body.speed) # Store the original speed
 			body.speed *= slow_factor # Apply the slow effect
-			do_damage += 1 # Might as well use this code to avoid stacking damage too
-			
+		do_damage += 1
 		enemies.append(body)
 			
 
@@ -36,6 +35,6 @@ func _on_body_exited(body: Node2D) -> void:
 		if "speed" in body and body.has_meta("original_speed"):
 			body.speed = body.get_meta("original_speed") # Restore the original speed
 			body.remove_meta("original_speed") # Remove the metadata
-			do_damage -= 1
+			
 		body.modulate = Color(1, 1, 1) # Reset visual indicator
-		
+		do_damage -= 1
