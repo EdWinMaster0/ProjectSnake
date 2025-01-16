@@ -10,7 +10,8 @@ var damage = 100
 var player
 var tail
 var prog
-var canhit = true
+var can_hit = true
+var can_move = true
 var isin = false
 var is_slow = false
 var is_boss = false
@@ -41,7 +42,7 @@ func _physics_process(delta):
  
 	velocity = target_position * speed
 	# Check if the enemy is in a 3px range of the player, if not move to the target position
-	if position.distance_to(player_position) > 3:
+	if position.distance_to(player_position) > 3 and can_move:
 		move_and_slide()
 		$Sprite2D.look_at(player_position)
 		$Sprite2D.rotation_degrees += 90
@@ -55,15 +56,15 @@ func _physics_process(delta):
 		
 
 func _on_timer_timeout() -> void:
-	canhit= true
+	can_hit= true
 	player.modulate = Color(1, 1, 1)
 	tail.modulate = Color(1, 1, 1)
 	for i in range(player.segments.size()):
 		player.segments[i].get_child(0).modulate = Color(1, 1, 1) 
 	if isin == true:
-		if canhit:
+		if can_hit:
 			$Hurtbox/Timer.start()
-			canhit = false
+			can_hit = false
 			GlobalVariables.health -= damage/GlobalVariables.defense
 			player.modulate = Color(3, 0, 0)
 			tail.modulate = Color(3, 0, 0)
@@ -72,10 +73,11 @@ func _on_timer_timeout() -> void:
 
 func deal_damage(def:float):
 	isin = true
-	if canhit:
+	can_move = false
+	if can_hit:
 		$Hurtbox/Timer.start()
 		player.stay_red_counter = 60
-		canhit = false
+		can_hit = false
 		GlobalVariables.health -= int(damage/def)
 		player.modulate = Color(3, 0, 0)
 		tail.modulate = Color(3, 0, 0)
@@ -91,3 +93,5 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 			
 func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false
+	if body.name == "Player" or body.name.contains("Segment"):
+		can_move = true

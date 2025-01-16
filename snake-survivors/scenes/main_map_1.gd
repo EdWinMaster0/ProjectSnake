@@ -16,19 +16,23 @@ var is_in_menu = false
 func _ready() -> void:
 	pass # Replace with function body.
 
+func menu() -> void:
+	if is_in_menu == true:
+		is_in_menu = false
+		Engine.time_scale = 1
+		$UI/PauseMenu.hide()
+	else:
+		is_in_menu = true
+		Engine.time_scale = 0
+		$UI/PauseMenu.show()
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 var enemy_num = 0
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Menu"):
-		if is_in_menu == true:
-			is_in_menu = false
-			Engine.time_scale = 1
-			$UI/PauseMenu.hide()
-		else:
-			is_in_menu = true
-			Engine.time_scale = 0
-			$UI/PauseMenu.show()
+		menu()
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)

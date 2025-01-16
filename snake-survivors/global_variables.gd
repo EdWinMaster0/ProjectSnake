@@ -12,8 +12,6 @@ extends Node
 @export var slow_factor = 0.5
 @export var poison_potency = 0.5
 @export var pierce = 1
-@export var max_puddles = 3
-@export var p_speed = 700
 
 func _reset() -> void:
 	max_health = 500
@@ -27,8 +25,7 @@ func _reset() -> void:
 	slow_factor = 0.5
 	poison_potency = 0.5
 	pierce = 1
-	max_puddles = 3
-	p_speed = 700
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
