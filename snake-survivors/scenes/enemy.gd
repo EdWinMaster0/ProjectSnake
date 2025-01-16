@@ -16,9 +16,11 @@ var isin = false
 var is_slow = false
 var is_boss = false
 var has_dot = false
+var dot_linger = 1.0
 # Get a reference to the player. It's likely different in your project
 
 func _ready() -> void:
+	dot_linger = GlobalVariables.linger
 	speed = base_speed
 	player = get_parent().get_node("Player")
 	tail = get_parent().get_node("Tail")
@@ -26,7 +28,10 @@ func _ready() -> void:
 	health = max_health
  
 func _physics_process(delta):
-	
+	if dot_linger > 0:
+		dot_linger -= delta
+	else:
+		has_dot = false
 	if is_slow:
 		speed = GlobalVariables.slow_factor * base_speed
 	else:

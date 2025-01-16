@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=25 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
@@ -38,6 +38,9 @@ font_size = 100
 font = ExtResource("9_uaps2")
 
 [sub_resource type="LabelSettings" id="LabelSettings_togne"]
+font = ExtResource("9_uaps2")
+
+[sub_resource type="LabelSettings" id="LabelSettings_2rplt"]
 font = ExtResource("9_uaps2")
 
 [sub_resource type="LabelSettings" id="LabelSettings_8npu8"]
@@ -333,6 +336,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/PauseMenu/Skills"]
+layout_mode = 0
 offset_left = 30.0
 offset_top = 44.0
 offset_right = 70.0
@@ -462,6 +466,11 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "asd"
 label_settings = SubResource("LabelSettings_togne")
+
+[node name="projectileSpeed" type="Label" parent="UI/PauseMenu/PauseMenu/Stats/Statbox/col2"]
+layout_mode = 2
+text = "asd"
+label_settings = SubResource("LabelSettings_2rplt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/PauseMenu/Stats"]
 layout_mode = 0

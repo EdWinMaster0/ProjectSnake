@@ -14,6 +14,8 @@ extends Node
 @export var pierce = 1
 @export var max_puddles = 3
 @export var p_speed = 700
+@export var p_cooldown = 2
+@export var linger = 1.0
 
 func _reset() -> void:
 	max_health = 500
@@ -29,6 +31,8 @@ func _reset() -> void:
 	pierce = 1
 	max_puddles = 3
 	p_speed = 700
+	p_cooldown = 2
+	linger = 1.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

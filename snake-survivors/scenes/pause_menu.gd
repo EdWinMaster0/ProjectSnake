@@ -28,7 +28,8 @@ func _process(delta: float) -> void:
 	sCol2.get_node("pierce").text = str("pierce: ", GlobalVariables.pierce)
 	sCol2.get_node("scaleToughness").text = str("scale toughness: ", GlobalVariables.scale_toughness)
 	sCol2.get_node("regen").text = str("regen rate: ", GlobalVariables.hps_regen)
-	sCol2.get_node("puddleCount").text = str("puddles count: ", GlobalVariables.slow_factor*100, "%")
+	sCol2.get_node("puddleCount").text = str("puddles count: ", GlobalVariables.max_puddles)
+	sCol2.get_node("projectileSpeed").text = str("bullet speed: ", GlobalVariables.p_speed)
 
 func _on_resume_pressed() -> void:
 	map.menu()

@@ -1,5 +1,4 @@
 extends Area2D
-var do_damage = 0
 var enemies = []
 
 func _ready():
@@ -13,6 +12,7 @@ func _on_animation_finished(anim_name: String) -> void:
 func _physics_process(delta: float) -> void:
 	for enemy in enemies:
 		enemy.has_dot = true
+		enemy.dot_linger = GlobalVariables.linger
 		enemy.get_child(0).modulate = Color(5, 0, 0) # Indicate damage visually
 		
 func _on_body_entered(body: Node2D) -> void:
@@ -20,7 +20,6 @@ func _on_body_entered(body: Node2D) -> void:
 		if not body.is_boss:
 			body.is_slow = true
 		enemies.append(body)
-		do_damage += 1
 func _on_body_exited(body: Node2D) -> void:
 	if body.name.contains("Enemy") and enemies.has(body):
 		enemies.erase(body)

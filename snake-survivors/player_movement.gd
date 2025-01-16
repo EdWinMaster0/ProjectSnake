@@ -12,10 +12,11 @@ var segment_scene = preload("res://scenes/Segment.tscn")
 var projectile_scene = preload("res://scenes/Projectile.tscn")
 var stay_red_counter = -1
 
-var timeout = 1
+var timeout = 2
 var can_shoot = true
 
 func _ready():
+	timeout = GlobalVariables.p_cooldown
 	for i in range(num_segments):
 		var s = segment_scene.instantiate()
 		segments.append(s)
@@ -61,7 +62,7 @@ func _physics_process(delta):
 		call_deferred("add_sibling", proj)
 		proj.position = position + dir_history[dir_history.size() - 1] * 30
 		can_shoot = false
-		timeout = 1
+		timeout = GlobalVariables.p_cooldown
 		
 	if stay_red_counter == 0:
 		modulate = Color(1, 1, 1)
