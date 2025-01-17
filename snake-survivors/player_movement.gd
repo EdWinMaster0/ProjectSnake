@@ -70,8 +70,13 @@ func _physics_process(delta):
 		for i in range(segments.size()):
 			segments[i].get_child(0).modulate = Color(1, 1, 1) 
 		stay_red_counter -= 1
+		get_node("../Tail").modulate = Color(1, 1, 1)
 	elif stay_red_counter > 0:
+		modulate = Color(3, 0, 0)
+		for i in range(segments.size()):
+			segments[i].get_child(0).modulate = Color(3, 0, 0) 
 		stay_red_counter -= 1
+		get_node("../Tail").modulate = Color(3, 0, 0)
 	
 	if position_history.is_empty() or position != position_history.back():
 		position_history.append(position)

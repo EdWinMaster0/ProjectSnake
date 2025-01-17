@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://buo1luci0ugne"]
+
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_8qms3"]
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_swfbk"]
+[ext_resource type="Texture2D" uid="uid://dy1ssnj0pn7tm" path="res://assets/Sprite-0002.png" id="3_fni3s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikmoj"]
+radius = 33.0606
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fgxm1"]
+radius = 36.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 7
+collision_mask = 4
+script = ExtResource("1_swfbk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(14, 0)
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("1_8qms3")
+hframes = 4
+vframes = 20
+frame = 28
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ikmoj")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_fgxm1")
+
+[node name="Timer" type="Timer" parent="Hurtbox"]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+z_index = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -39.0
+offset_right = 20.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_fni3s")
+texture_progress = ExtResource("3_fni3s")
+tint_under = Color(0.658824, 0.180392, 0.180392, 1)
+tint_progress = Color(2, 0, 0, 1)
+
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="body_exited" from="Hurtbox" to="." method="_on_hurtbox_body_exited"]
+[connection signal="timeout" from="Hurtbox/Timer" to="." method="_on_timer_timeout"]

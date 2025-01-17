@@ -58,7 +58,11 @@ func _process(delta: float) -> void:
 		else:
 			e.max_health *= r
 			e.scale *= r
-			e.damage *= r
+			e.damage *= r 
+		if randf_range(0, 100) > 30:
+			e.ai_num = 0
+		else:
+			e.ai_num = 1
 		e.damage = int(e.damage)
 		e.name = str("Enemy", enemy_num)
 		enemy_num += 1

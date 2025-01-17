@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl1etc3la5dhd"]
+
+[ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_0bjfu"]
+
+[sub_resource type="GDScript" id="GDScript_4qpkb"]
+script/source = "extends Area2D
+
+var velocity = Vector2()
+var countdown = []
+var enemy = []
+var until_pierce = 0
+var damage = 100
+var time_elapsed = 0.0
+var despawn_time = 1.0
+var p_speed = 100
+func _ready() -> void:
+	velocity = transform.x * p_speed
+
+func _physics_process(delta):
+	time_elapsed += delta
+	if time_elapsed >= despawn_time:
+		queue_free()
+	for i in range(countdown.size() - 1, -1, -1):
+		if countdown[i] > 0:
+			countdown[i] -= 1
+		else:
+			if is_instance_valid(enemy[i]):
+				enemy[i].get_child(0).modulate = Color(1, 1, 1)
+			enemy.remove_at(i)
+			countdown.remove_at(i)
+	
+	position += velocity * delta
+
+	if velocity.length() < 1:
+		queue_free()
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name.contains(\"Player\"):
+		until_pierce += 1
+		enemy.append(body)
+		GlobalVariables.health -= int((damage * randf_range(0.85, 1.15)) / GlobalVariables.defense)
+		body.stay_red_counter = 60
+		countdown.append(20)
+		if until_pierce == GlobalVariables.pierce:
+			queue_free()
+	elif body.name.contains(\"Segment\"):
+		until_pierce += 1
+		enemy.append(body)
+		GlobalVariables.health -= int((damage * randf_range(0.85, 1.15)) / (GlobalVariables.defense * GlobalVariables.scale_toughness))
+		get_node(\"../Player\").stay_red_counter = 10
+		countdown.append(20)
+		if until_pierce == GlobalVariables.pierce:
+			queue_free()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fcjd6"]
+size = Vector2(15, 30)
+
+[node name="EnemyProjectile" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+linear_damp = 100.0
+angular_damp = 100.0
+script = SubResource("GDScript_4qpkb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 20
+position = Vector2(2, -2)
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("1_0bjfu")
+hframes = 4
+vframes = 20
+frame = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0.5)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_fcjd6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

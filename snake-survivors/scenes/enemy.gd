@@ -17,6 +17,10 @@ var is_slow = false
 var is_boss = false
 var has_dot = false
 var dot_linger = 1.0
+var arrow_cooldown = 3
+var ammo = 5
+var ai_num = 0
+var projectile_scene = preload("res://scenes/EnemyProjectile.tscn")
 # Get a reference to the player. It's likely different in your project
 
 func _ready() -> void:
@@ -26,7 +30,7 @@ func _ready() -> void:
 	tail = get_parent().get_node("Tail")
 	prog = $TextureProgressBar
 	health = max_health
- 
+	
 func _physics_process(delta):
 	if dot_linger > 0:
 		dot_linger -= delta
@@ -44,13 +48,13 @@ func _physics_process(delta):
 	player_position = player.position
 	# Calculate the target position
 	target_position = (player_position - position).normalized()
- 
+	
 	velocity = target_position * speed
-	# Check if the enemy is in a 3px range of the player, if not move to the target position
-	if position.distance_to(player_position) > 3 and can_move:
-		move_and_slide()
-		$Sprite2D.look_at(player_position)
-		$Sprite2D.rotation_degrees += 90
+	if ai_num == 0:
+		axe_ai()
+	elif ai_num == 1:
+		archer_ai(delta)
+	
 	if health <= 0:
 		GlobalVariables.exp += int(damage)
 		while GlobalVariables.exp >= GlobalVariables.exp_cap:
@@ -100,3 +104,27 @@ func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false
 	if body.name == "Player" or body.name.contains("Segment"):
 		can_move = true
+func shoot() -> void:
+	var proj = projectile_scene.instantiate()
+	proj.transform.x = $Sprite2D.transform.x
+	proj.rotation_degrees -= 90
+	proj.position = position
+	call_deferred("add_sibling", proj)
+func archer_ai(delta: float) -> void:
+	$Sprite2D.frame = 29
+	if arrow_cooldown > 0:
+		arrow_cooldown -= delta
+		if position.distance_to(player_position) > 3 and can_move:
+			move_and_slide()
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90
+	else:
+		shoot()
+		arrow_cooldown = 3
+	
+func axe_ai() -> void:
+	$Sprite2D.frame = 28
+	if position.distance_to(player_position) > 3 and can_move:
+			move_and_slide()
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90

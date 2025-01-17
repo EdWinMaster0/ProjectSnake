@@ -51,7 +51,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.name.contains("Enemy"):
 		until_pierce += 1
 		enemy.append(body)
-		body.health -= GlobalVariables.damage * randf_range(0.7, 1.3)
+		body.health -= GlobalVariables.damage * randf_range(0.85, 1.15)
 		body.get_child(0).modulate = Color(5, 0, 0)
 		countdown.append(20)
 		if until_pierce == GlobalVariables.pierce:
