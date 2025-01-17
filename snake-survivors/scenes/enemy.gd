@@ -110,6 +110,7 @@ func shoot() -> void:
 	proj.rotation_degrees -= 90
 	proj.position = position
 	call_deferred("add_sibling", proj)
+	
 func archer_ai(delta: float) -> void:
 	$Sprite2D.frame = 29
 	if arrow_cooldown > 0:

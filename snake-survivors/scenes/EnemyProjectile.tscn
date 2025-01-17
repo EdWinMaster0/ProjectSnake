@@ -16,6 +16,7 @@ var p_speed = 100
 func _ready() -> void:
 	velocity = transform.x * p_speed
 
+
 func _physics_process(delta):
 	time_elapsed += delta
 	if time_elapsed >= despawn_time:
@@ -54,9 +55,10 @@ func _on_body_entered(body: Node2D) -> void:
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fcjd6"]
-size = Vector2(15, 30)
+size = Vector2(3.00002, 5.99999)
 
 [node name="EnemyProjectile" type="Area2D"]
+scale = Vector2(5, 5)
 collision_layer = 0
 collision_mask = 4
 linear_damp = 100.0
@@ -65,17 +67,17 @@ script = SubResource("GDScript_4qpkb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 20
-position = Vector2(2, -2)
+position = Vector2(1.19209e-07, -0.4)
 rotation = 1.5708
-scale = Vector2(5, 5)
 texture = ExtResource("1_0bjfu")
 hframes = 4
 vframes = 20
 frame = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, 0.5)
+position = Vector2(-3.57628e-07, 0)
 rotation = 1.5708
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_fcjd6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
