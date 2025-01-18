@@ -15,11 +15,14 @@ var can_move = true
 var isin = false
 var is_slow = false
 var is_boss = false
+var is_enraged = false
 var has_dot = false
 var dot_linger = 1.0
-var arrow_cooldown = 3
+var max_cooldown = 3
+var cooldown = 3
 var ammo = 5
-var ai_num = 0
+var enraged_factor = 5
+var ai_num = 0 #0 is axe I; 1 is archer I; 2 is axe II
 var projectile_scene = preload("res://scenes/EnemyProjectile.tscn")
 # Get a reference to the player. It's likely different in your project
 
@@ -30,6 +33,7 @@ func _ready() -> void:
 	tail = get_parent().get_node("Tail")
 	prog = $TextureProgressBar
 	health = max_health
+	cooldown = max_cooldown
 	
 func _physics_process(delta):
 	if dot_linger > 0:
@@ -43,6 +47,8 @@ func _physics_process(delta):
 	if has_dot:
 		health -= 1 * Engine.time_scale * GlobalVariables.poison_potency
 	prog.value = (((prog.max_value - prog.min_value) / max_health) * health) + prog.min_value
+	if is_enraged:
+		speed *= enraged_factor
 	
 	# Set player_position to the position of the player node
 	player_position = player.position
@@ -51,9 +57,11 @@ func _physics_process(delta):
 	
 	velocity = target_position * speed
 	if ai_num == 0:
-		axe_ai()
+		axe_I_ai()
 	elif ai_num == 1:
-		archer_ai(delta)
+		archer_I_ai(delta)
+	elif ai_num == 2:
+		axe_II_ai(delta)
 	
 	if health <= 0:
 		GlobalVariables.exp += int(damage)
@@ -96,36 +104,66 @@ func deal_damage(def:float):
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
+		$CollisionShape2D.disabled = false
 		deal_damage(GlobalVariables.defense)
 	elif body.name.contains("Segment"):
+		$CollisionShape2D.disabled = false
 		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
 			
 func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false
 	if body.name == "Player" or body.name.contains("Segment"):
 		can_move = true
+		
 func shoot() -> void:
 	var proj = projectile_scene.instantiate()
 	proj.transform.x = $Sprite2D.transform.x
 	proj.rotation_degrees -= 90
 	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
+
+
+
+func axe_I_ai() -> void:
+	$Sprite2D.frame = 28
+	if position.distance_to(player_position) > 3 and can_move:
+			move_and_slide()
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90
+			
+func axe_II_ai(delta: float) -> void:
+	$Sprite2D.z_index = 2
+	$Sprite2D.frame = 30
+	cooldown -= delta
+	if cooldown > 0:
+		if position.distance_to(player_position) > 3 and can_move:
+				move_and_slide()
+				$Sprite2D.look_at(player_position)
+				$Sprite2D.rotation_degrees += 90
+	elif cooldown > -1:
+		$Sprite2D.look_at(player_position)
+		$Sprite2D.rotation_degrees += 90
+	elif cooldown > -3:
+		$CollisionShape2D.disabled = true
+		is_enraged = true
+		if position.distance_to(player_position) > 3 and can_move:
+			move_and_slide()
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90
+	else:
+		$CollisionShape2D.disabled = false
+		is_enraged = false
+		cooldown = max_cooldown
 	
-func archer_ai(delta: float) -> void:
+func archer_I_ai(delta: float) -> void:
 	$Sprite2D.frame = 29
-	if arrow_cooldown > 0:
-		arrow_cooldown -= delta
+	if cooldown > 0:
+		cooldown -= delta
 		if position.distance_to(player_position) > 3 and can_move:
 			move_and_slide()
 			$Sprite2D.look_at(player_position)
 			$Sprite2D.rotation_degrees += 90
 	else:
 		shoot()
-		arrow_cooldown = 3
+		cooldown = max_cooldown
 	
-func axe_ai() -> void:
-	$Sprite2D.frame = 28
-	if position.distance_to(player_position) > 3 and can_move:
-			move_and_slide()
-			$Sprite2D.look_at(player_position)
-			$Sprite2D.rotation_degrees += 90

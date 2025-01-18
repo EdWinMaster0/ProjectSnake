@@ -37,21 +37,24 @@ func _process(delta: float) -> void:
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)
-		var r = randf_range(0.5, 2)
 		if enemy_num % 20 == 0 and enemy_num != 0:
 			e.max_health *= 5
 			e.scale *= 5
 			e.damage *= 5
-			e.speed /= 3
+			e.base_speed /= 3
 			e.is_boss = true
-		else:
-			e.max_health *= r
-			e.scale *= r
-			e.damage *= r 
-		if randf_range(0, 100) > 30:
+		var rpercent = randf_range(0, 100)
+		if rpercent > 30:
 			e.ai_num = 0
+		elif rpercent > 5:
+			e.ai_num = 2
+			e.health *= 3
+			e.damage *= 2
+			e.scale *= 3
 		else:
 			e.ai_num = 1
+			e.health *= 0.7
+			e.base_speed *= 0.7
 		e.damage = int(e.damage)
 		e.name = str("Enemy", enemy_num)
 		enemy_num += 1
@@ -76,10 +79,10 @@ func _process(delta: float) -> void:
 			counter +=1
 	for i in range(exps.size()-1):
 		if !is_instance_valid(exps[i]):
-			exps.remove_at(i)
+			exps.erase(exps[i])
 	for i in range(enemies.size()-1):
 		if !is_instance_valid(enemies[i]):
-			enemies.remove_at(i)
+			enemies.erase(enemies[i])
 	
 func _on_despawn_area_body_exited(body: Node2D) -> void:
 	if enemies.has(body) or exps.has(body):

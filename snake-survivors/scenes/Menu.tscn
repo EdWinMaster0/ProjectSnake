@@ -21,22 +21,15 @@ cache/0/26/0/scale = 1.0
 
 [node name="Menu" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -1.0
-offset_right = 1.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="Háttér" type="Sprite2D" parent="."]
 position = Vector2(576, 325)
 texture = ExtResource("1_yht06")
 
 [node name="Gombok" type="MarginContainer" parent="."]
-layout_mode = 0
+layout_mode = 2
 offset_left = 479.0
 offset_top = 454.0
 offset_right = 872.0
@@ -76,9 +69,9 @@ theme_override_font_sizes/font_size = 26
 text = "Quit"
 script = ExtResource("1_1ira0")
 
-[connection signal="pressed" from="Gombok/Gombok/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Gombok/Gombok/Start" to="Gombok/Gombok/Start" method="_on_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Gombok/Gombok/Options" to="Gombok/Gombok/Start" method="_on_options_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Gombok/Gombok/Quit" to="Gombok/Gombok/Start" method="_on_quit_pressed"]
+[connection signal="pressed" from="Gombok/Gombok/Quit" to="." method="_on_quit_pressed"]

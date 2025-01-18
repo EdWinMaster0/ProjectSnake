@@ -52,7 +52,6 @@ func _deferred_create_puddle(pos: Vector2) -> void:
 
 	puddles.append(puddle)
 
-	# Handle removing the oldest puddle if needed
 	if puddles.size() > GlobalVariables.max_puddles:
 		var oldest_puddle = puddles.pop_front()
 		if oldest_puddle:
