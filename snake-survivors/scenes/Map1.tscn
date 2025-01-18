@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dtcq8mxjfvyid"]
+[gd_scene load_steps=26 format=3 uid="uid://dtcq8mxjfvyid"]
 
 [ext_resource type="Script" path="res://scenes/main_map_1.gd" id="1_2tae0"]
 [ext_resource type="Script" path="res://player_movement.gd" id="1_rhkjq"]
@@ -18,6 +18,9 @@ radius = 41.3038
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yjjee"]
 radius = 34.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4pca8"]
+radius = 1615.06
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hpr6u"]
 radius = 82.2982
@@ -62,6 +65,7 @@ sources/1 = SubResource("TileSetAtlasSource_bl520")
 script = ExtResource("1_2tae0")
 
 [node name="Player" type="CharacterBody2D" parent="."]
+z_index = 1
 position = Vector2(75, 0)
 collision_layer = 13
 script = ExtResource("1_rhkjq")
@@ -88,6 +92,11 @@ shape = SubResource("CircleShape2D_yjjee")
 
 [node name="Marker2D" type="Node2D" parent="Player"]
 position = Vector2(31, 0)
+
+[node name="DespawnArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/DespawnArea"]
+shape = SubResource("CircleShape2D_4pca8")
 
 [node name="MoveToPos_Debug" type="Sprite2D" parent="."]
 visible = false
@@ -529,6 +538,7 @@ frame = 2
 autostart = true
 script = ExtResource("10_41hkd")
 
+[connection signal="body_exited" from="Player/DespawnArea" to="." method="_on_despawn_area_body_exited"]
 [connection signal="pressed" from="UI/PauseMenu/PauseMenu/Main/VBoxContainer/Stats" to="UI/PauseMenu/PauseMenu" method="_on_stats_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/PauseMenu/Main/VBoxContainer/Skills" to="UI/PauseMenu/PauseMenu" method="_on_skills_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/PauseMenu/Main/VBoxContainer/Resume" to="UI/PauseMenu/PauseMenu" method="_on_resume_pressed"]

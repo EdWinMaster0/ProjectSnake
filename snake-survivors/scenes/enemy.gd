@@ -108,7 +108,7 @@ func shoot() -> void:
 	var proj = projectile_scene.instantiate()
 	proj.transform.x = $Sprite2D.transform.x
 	proj.rotation_degrees -= 90
-	proj.position = position
+	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
 	
 func archer_ai(delta: float) -> void:

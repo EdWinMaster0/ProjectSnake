@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var enemy_spawn_rate = 0.5
+@export var enemy_spawn_rate = 1.0
 @export var max_enemy_count = 10
 @export var exp_spawn_rate = 10.0
 @export var max_exp_count = 3
@@ -31,18 +31,7 @@ func menu() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 var enemy_num = 0
 func _process(delta: float) -> void:
-	for i in range(exps.size()-1):
-		if !is_instance_valid(exps[i]):
-			exps.remove_at(i)
-		elif abs($Player.position.x - exps[i].position.x) > 1000 or abs($Player.position.y - exps[i].position.y) > 1000:
-			exps[i].queue_free()
-			exps.remove_at(i)
-	for i in range(enemies.size()-1):
-		if !is_instance_valid(enemies[i]):
-			enemies.remove_at(i)
-		elif abs($Player.position.x - enemies[i].position.x) > 1000 or abs($Player.position.y - enemies[i].position.y) > 1000:
-			enemies[i].queue_free()
-			enemies.remove_at(i)
+	
 	if Input.is_action_just_pressed("Menu"):
 		menu()
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
@@ -85,6 +74,13 @@ func _process(delta: float) -> void:
 			counter = 0
 		else:
 			counter +=1
+	for i in range(exps.size()-1):
+		if !is_instance_valid(exps[i]):
+			exps.remove_at(i)
+	for i in range(enemies.size()-1):
+		if !is_instance_valid(enemies[i]):
+			enemies.remove_at(i)
 	
-	
-	
+func _on_despawn_area_body_exited(body: Node2D) -> void:
+	if enemies.has(body) or exps.has(body):
+		body.queue_free()

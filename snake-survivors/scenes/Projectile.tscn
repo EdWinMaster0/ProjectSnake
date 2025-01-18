@@ -41,16 +41,23 @@ func _physics_process(delta):
 
 
 func create_puddle(pos: Vector2) -> void:
+	# Defer the creation and addition of the puddle
+	call_deferred(\"_deferred_create_puddle\", pos)
+
+# Might not work
+func _deferred_create_puddle(pos: Vector2) -> void:
 	var puddle = puddle_scene.instantiate()
 	get_parent().add_child(puddle)
 	puddle.position = pos
 
 	puddles.append(puddle)
-	
+
+	# Handle removing the oldest puddle if needed
 	if puddles.size() > GlobalVariables.max_puddles:
 		var oldest_puddle = puddles.pop_front()
 		if oldest_puddle:
 			oldest_puddle.queue_free()
+ 
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name.contains(\"Enemy\"):

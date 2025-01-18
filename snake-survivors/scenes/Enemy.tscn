@@ -25,6 +25,11 @@ hframes = 4
 vframes = 20
 frame = 28
 
+[node name="Marker2D" type="Marker2D" parent="Sprite2D"]
+position = Vector2(-3.60003, -7.99999)
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ikmoj")
 
@@ -56,10 +61,6 @@ texture_under = ExtResource("3_fni3s")
 texture_progress = ExtResource("3_fni3s")
 tint_under = Color(0.658824, 0.180392, 0.180392, 1)
 tint_progress = Color(2, 0, 0, 1)
-
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(54, -18)
-scale = Vector2(1, 1)
 
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_hurtbox_body_exited"]
