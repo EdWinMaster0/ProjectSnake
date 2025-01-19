@@ -117,12 +117,8 @@ func _on_hurtbox_body_exited(body: Node2D) -> void:
 		
 func shoot() -> void:
 	var proj = projectile_scene.instantiate()
-	proj.transform.x = $Sprite2D.transform.x
-	proj.rotation_degrees -= 90
 	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
-
-
 
 func axe_I_ai() -> void:
 	$Sprite2D.frame = 28

@@ -44,9 +44,9 @@ func _process(delta: float) -> void:
 			e.base_speed /= 3
 			e.is_boss = true
 		var rpercent = randf_range(0, 100)
-		if rpercent > 30:
+		if rpercent > 40:
 			e.ai_num = 0
-		elif rpercent > 5:
+		elif rpercent > 30:
 			e.ai_num = 2
 			e.health *= 3
 			e.damage *= 2

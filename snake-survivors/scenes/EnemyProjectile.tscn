@@ -14,8 +14,9 @@ var time_elapsed = 0.0
 var despawn_time = 1.0
 var p_speed = 100
 func _ready() -> void:
+	look_at(get_parent().get_node(\"Player\").position)
 	velocity = transform.x * p_speed
-
+	
 
 func _physics_process(delta):
 	time_elapsed += delta
@@ -75,7 +76,6 @@ vframes = 20
 frame = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.84217e-14, -1.01644e-19)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_fcjd6")
 
