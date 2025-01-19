@@ -73,7 +73,7 @@ rotation = 1.5708
 texture = ExtResource("1_0bjfu")
 hframes = 4
 vframes = 20
-frame = 32
+frame = 40
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

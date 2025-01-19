@@ -71,6 +71,7 @@ func _physics_process(delta):
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
 		queue_free()
 		
+		
 
 func _on_timer_timeout() -> void:
 	can_hit= true
@@ -102,14 +103,19 @@ func deal_damage(def:float):
 			player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
 
+var is_hurtbox_active = true
+
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		$CollisionShape2D.disabled = false
+		is_enraged = false
+		cooldown = max_cooldown
 		deal_damage(GlobalVariables.defense)
 	elif body.name.contains("Segment"):
-		$CollisionShape2D.disabled = false
+		is_enraged = false
+		cooldown = max_cooldown
 		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
-			
+
+	
 func _on_hurtbox_body_exited(body: Node2D) -> void:
 	isin = false
 	if body.name == "Player" or body.name.contains("Segment"):
@@ -117,6 +123,7 @@ func _on_hurtbox_body_exited(body: Node2D) -> void:
 		
 func shoot() -> void:
 	var proj = projectile_scene.instantiate()
+	proj.scale *= scale
 	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
 
@@ -133,9 +140,10 @@ func axe_II_ai(delta: float) -> void:
 	cooldown -= delta
 	if cooldown > 0:
 		if position.distance_to(player_position) > 3 and can_move:
-				move_and_slide()
-				$Sprite2D.look_at(player_position)
-				$Sprite2D.rotation_degrees += 90
+			move_and_slide()
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90
+		$CollisionShape2D.disabled = false
 	elif cooldown > -1:
 		$Sprite2D.look_at(player_position)
 		$Sprite2D.rotation_degrees += 90
@@ -162,4 +170,10 @@ func archer_I_ai(delta: float) -> void:
 	else:
 		shoot()
 		cooldown = max_cooldown
+	
+	
+func boss_I_ai(delta: float) -> void:
+	$Sprite2D.vframes = 10
+	$Sprite2D.hframes = 2
+	$Sprite2D.frame = 9
 	

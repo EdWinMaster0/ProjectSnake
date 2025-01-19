@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 			e.ai_num = 2
 			e.health *= 3
 			e.damage *= 2
-			e.scale *= 3
+			e.scale *= 1.5
 		else:
 			e.ai_num = 1
 			e.health *= 0.7
