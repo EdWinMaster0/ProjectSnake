@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)
-		if enemy_num % 20 == 0 and enemy_num != 0:
+		if enemy_num % 20 == 0 and enemy_num == 0:
 			e.max_health *= 5
 			e.scale *= 5
 			e.damage *= 5

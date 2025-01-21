@@ -56,7 +56,9 @@ func _physics_process(delta):
 	target_position = (player_position - position).normalized()
 	
 	velocity = target_position * speed
-	if ai_num == 0:
+	if is_boss:
+		boss_I_ai(delta)
+	elif ai_num == 0:
 		axe_I_ai()
 	elif ai_num == 1:
 		archer_I_ai(delta)
@@ -108,11 +110,13 @@ var is_hurtbox_active = true
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		is_enraged = false
-		cooldown = max_cooldown
+		if !is_boss and ai_num == 2:
+			cooldown = max_cooldown
 		deal_damage(GlobalVariables.defense)
 	elif body.name.contains("Segment"):
 		is_enraged = false
-		cooldown = max_cooldown
+		if !is_boss and ai_num == 2:
+			cooldown = max_cooldown
 		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
 
 	
@@ -175,5 +179,32 @@ func archer_I_ai(delta: float) -> void:
 func boss_I_ai(delta: float) -> void:
 	$Sprite2D.vframes = 10
 	$Sprite2D.hframes = 2
-	$Sprite2D.frame = 9
-	
+	$Sprite2D.frame = 8
+	z_index = 100
+	cooldown -= delta
+	if health > max_health/2:
+		if cooldown > 0:
+			$Sprite2D.frame = 8
+			$CollisionShape2D.disabled = false
+			$Sprite2D.look_at(player_position)
+			$Sprite2D.rotation_degrees += 90
+		elif cooldown > -1:
+			$Sprite2D.frame = 9
+			$CollisionShape2D.disabled = true
+			scale += Vector2(0.01, 0.01)
+			$Sprite2D.rotation_degrees -= 90
+			velocity = $Sprite2D.transform.x * speed*3
+			$Sprite2D.rotation_degrees += 90
+			move_and_slide()
+		elif cooldown > -2:
+			$Sprite2D.frame = 9
+			$CollisionShape2D.disabled = true
+			scale -= Vector2(0.01, 0.01)
+			$Sprite2D.rotation_degrees -= 90
+			velocity = $Sprite2D.transform.x * speed
+			$Sprite2D.rotation_degrees += 90
+			move_and_slide()
+		else:
+			cooldown = max_cooldown
+	else:
+		get_parent().modulate = Color(0.5, 0.5, 1.5)
