@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_qyity"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onoap"]
+size = Vector2(40, 40)
 
 [node name="Segment" type="CharacterBody2D"]
 collision_layer = 4

@@ -10,19 +10,25 @@ var damage = 100
 var player
 var tail
 var prog
+var can_spawn = true #can spawn subordinates
 var can_hit = true
 var can_move = true
 var isin = false
 var is_slow = false
 var is_boss = false
 var is_enraged = false
+var has_shield = false
 var has_dot = false
 var dot_linger = 1.0
 var max_cooldown = 3
 var cooldown = 3
+var max_cooldown_II = 10
+var cooldown_II = 10
 var ammo = 5
-var enraged_factor = 5
+var enraged_factor = 3
 var ai_num = 0 #0 is axe I; 1 is archer I; 2 is axe II
+var subordinates = []
+var max_subordinates = 3 #+1
 var projectile_scene = preload("res://scenes/EnemyProjectile.tscn")
 # Get a reference to the player. It's likely different in your project
 
@@ -64,6 +70,12 @@ func _physics_process(delta):
 		archer_I_ai(delta)
 	elif ai_num == 2:
 		axe_II_ai(delta)
+		
+	if has_shield:
+		$Sprite2D/ShieldSprite.show()
+		$Sprite2D/AnimationPlayer.play("shield")
+	else:
+		$Sprite2D/ShieldSprite.hide()
 	
 	if health <= 0:
 		GlobalVariables.exp += int(damage)
@@ -71,6 +83,8 @@ func _physics_process(delta):
 			GlobalVariables.exp -= GlobalVariables.exp_cap
 			GlobalVariables.level += 1
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
+		if is_boss:
+			get_parent().is_raining = false
 		queue_free()
 		
 		
@@ -132,7 +146,7 @@ func shoot() -> void:
 	call_deferred("add_sibling", proj)
 
 func axe_I_ai() -> void:
-	$Sprite2D.frame = 28
+	$AnimationPlayer.play("axe_idle")
 	if position.distance_to(player_position) > 3 and can_move:
 			move_and_slide()
 			$Sprite2D.look_at(player_position)
@@ -140,7 +154,7 @@ func axe_I_ai() -> void:
 			
 func axe_II_ai(delta: float) -> void:
 	$Sprite2D.z_index = 2
-	$Sprite2D.frame = 30
+	$AnimationPlayer.play("axe_II_idle")
 	cooldown -= delta
 	if cooldown > 0:
 		if position.distance_to(player_position) > 3 and can_move:
@@ -164,7 +178,7 @@ func axe_II_ai(delta: float) -> void:
 		cooldown = max_cooldown
 	
 func archer_I_ai(delta: float) -> void:
-	$Sprite2D.frame = 29
+	$AnimationPlayer.play("archer_idle")
 	if cooldown > 0:
 		cooldown -= delta
 		if position.distance_to(player_position) > 3 and can_move:
@@ -176,35 +190,63 @@ func archer_I_ai(delta: float) -> void:
 		cooldown = max_cooldown
 	
 	
+
 func boss_I_ai(delta: float) -> void:
-	$Sprite2D.vframes = 10
-	$Sprite2D.hframes = 2
-	$Sprite2D.frame = 8
+	$Sprite2D/ShieldSprite.scale = Vector2(2, 2)
+	$Sprite2D/ShieldSprite.position = Vector2(0, 0)
 	z_index = 100
 	cooldown -= delta
 	if health > max_health/2:
 		if cooldown > 0:
-			$Sprite2D.frame = 8
+			$AnimationPlayer.play("boss_idle")
 			$CollisionShape2D.disabled = false
+			$Hurtbox/CollisionShape2D.disabled = false
 			$Sprite2D.look_at(player_position)
 			$Sprite2D.rotation_degrees += 90
-		elif cooldown > -1:
-			$Sprite2D.frame = 9
+		else:
+			$AnimationPlayer.play("boss_hop")
 			$CollisionShape2D.disabled = true
-			scale += Vector2(0.01, 0.01)
+			$Hurtbox/CollisionShape2D.disabled = true
 			$Sprite2D.rotation_degrees -= 90
 			velocity = $Sprite2D.transform.x * speed*3
 			$Sprite2D.rotation_degrees += 90
 			move_and_slide()
-		elif cooldown > -2:
-			$Sprite2D.frame = 9
-			$CollisionShape2D.disabled = true
-			scale -= Vector2(0.01, 0.01)
-			$Sprite2D.rotation_degrees -= 90
-			velocity = $Sprite2D.transform.x * speed
-			$Sprite2D.rotation_degrees += 90
-			move_and_slide()
-		else:
-			cooldown = max_cooldown
 	else:
-		get_parent().modulate = Color(0.5, 0.5, 1.5)
+		get_parent().is_raining = true
+		if subordinates.size() <= max_subordinates and can_spawn:
+			has_shield = true
+			get_parent().spawn(3, 1.5, 2, 1, false, false, 2)
+			subordinates.append(get_parent().e)
+			get_parent().e.position = position
+		else:
+			can_spawn = false
+		for s in subordinates:
+			if !is_instance_valid(s):
+				subordinates.erase(s)
+		if subordinates.size() <= 0:
+			has_shield = false
+			cooldown -= delta
+			cooldown_II -= delta
+			if cooldown_II <= 0:
+				can_spawn = true
+				cooldown_II = max_cooldown_II
+			if cooldown > 0:
+				$AnimationPlayer.play("boss_idle")
+				$CollisionShape2D.disabled = false
+				$Hurtbox/CollisionShape2D.disabled = false
+				$Sprite2D.look_at(player_position)
+				$Sprite2D.rotation_degrees += 90
+			else:
+				$AnimationPlayer.play("boss_hop")
+				$CollisionShape2D.disabled = true
+				$Hurtbox/CollisionShape2D.disabled = true
+				$Sprite2D.rotation_degrees -= 90
+				velocity = $Sprite2D.transform.x * speed*3
+				$Sprite2D.rotation_degrees += 90
+				move_and_slide()
+			
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "boss_hop":
+		cooldown = max_cooldown

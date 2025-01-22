@@ -1,6 +1,7 @@
 extends Control
 
-
+func _physics_process(delta: float) -> void:
+	get_parent().get_parent().get_parent().get_child(0).get_child(0).text = str("Death Counter: ", GlobalVariables.death_counter)
 
 func _on_pressed() -> void:
 	GlobalVariables._reset()

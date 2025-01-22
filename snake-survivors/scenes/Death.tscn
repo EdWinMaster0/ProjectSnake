@@ -1,7 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3kjty8dvxj44"]
+[gd_scene load_steps=8 format=3 uid="uid://d3kjty8dvxj44"]
 
 [ext_resource type="Texture2D" uid="uid://s4k0y1cx5pmu" path="res://assets/DIESCREEN.png" id="1_3mp2v"]
+[ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="2_o2rm4"]
 [ext_resource type="Script" path="res://scenes/deathscreen.gd" id="3_kswap"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_webgm"]
+font = ExtResource("2_o2rm4")
+font_size = 60
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ucga"]
 
@@ -30,6 +35,18 @@ grow_vertical = 2
 [node name="Diescreen" type="Sprite2D" parent="."]
 position = Vector2(576, 325)
 texture = ExtResource("1_3mp2v")
+
+[node name="DeathCounter" type="Label" parent="Diescreen"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -596.0
+offset_top = -324.0
+offset_right = -556.0
+offset_bottom = -301.0
+grow_horizontal = 2
+text = "asd"
+label_settings = SubResource("LabelSettings_webgm")
 
 [node name="Gombok" type="MarginContainer" parent="."]
 layout_mode = 0

@@ -1,6 +1,8 @@
 extends Button
 
 
+func _physics_process(delta: float) -> void:
+	get_parent().get_parent().get_parent().get_child(0).get_child(0).text = str("Death Counter: ", GlobalVariables.death_counter)
 
 
 

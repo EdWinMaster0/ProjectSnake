@@ -1,7 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxty0dvj5db3"]
+[gd_scene load_steps=8 format=3 uid="uid://bxty0dvj5db3"]
 
 [ext_resource type="Script" path="res://menu.gd" id="1_1ira0"]
 [ext_resource type="Texture2D" uid="uid://drpxmxf1o16uy" path="res://assets/Snake Survival.png" id="1_yht06"]
+[ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="2_dygh0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_77s1r"]
+font = ExtResource("2_dygh0")
+font_size = 60
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5at2e"]
 
@@ -27,6 +32,18 @@ metadata/_edit_use_anchors_ = true
 [node name="Háttér" type="Sprite2D" parent="."]
 position = Vector2(576, 325)
 texture = ExtResource("1_yht06")
+
+[node name="DeathCounter" type="Label" parent="Háttér"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -702.5
+offset_top = -311.0
+offset_right = -449.5
+offset_bottom = -160.0
+grow_horizontal = 2
+text = "asd"
+label_settings = SubResource("LabelSettings_77s1r")
 
 [node name="Gombok" type="MarginContainer" parent="."]
 layout_mode = 2

@@ -4,6 +4,7 @@ extends Node2D
 @export var max_enemy_count = 10
 @export var exp_spawn_rate = 10.0
 @export var max_exp_count = 3
+@export var is_raining = false
 var enemies =[]
 var exps =[]
 var enemy_scene = preload("res://scenes/Enemy.tscn")
@@ -26,40 +27,54 @@ func menu() -> void:
 		Engine.time_scale = 0
 		$UI/PauseMenu.show()
 
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 var enemy_num = 0
+var e
+
+func spawn(max_hp: float, size: float, dmg: float, spd: float, is_boss: bool, has_shield: bool, ai_num: int) -> void:
+	e = enemy_scene.instantiate()
+	enemies.append(e)
+	if is_boss:
+		e.max_health *= 20
+		e.scale *= 5
+		e.damage *= 5
+		e.base_speed /= 3
+		e.is_boss = true
+	else:
+		e.ai_num = ai_num
+		e.scale *= size
+		e.max_health *= max_hp
+		e.damage *= dmg
+		e.base_speed *= spd
+		e.has_shield = has_shield
+	e.damage = int(e.damage)
+	e.name = str("Enemy", enemy_num)
+	enemy_num += 1
+	call_deferred("add_child", e)
+	e.position = Vector2(randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y), randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y))
+		
+
+
+
 func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("Menu"):
 		menu()
+	if is_raining:
+		modulate = Color(0.5, 0.5, 2)
+	else:
+		modulate = Color(1, 1, 1)
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
 		enemies.append(e)
 		if enemy_num % 20 == 0 and enemy_num == 0:
-			e.max_health *= 5
-			e.scale *= 5
-			e.damage *= 5
-			e.base_speed /= 3
-			e.is_boss = true
+			spawn(1, 1, 1, 1, true, false, 1)
 		var rpercent = randf_range(0, 100)
 		if rpercent > 40:
-			e.ai_num = 0
+			spawn(1, 1, 1, 1, false, false, 0)
 		elif rpercent > 30:
-			e.ai_num = 2
-			e.health *= 3
-			e.damage *= 2
-			e.scale *= 1.5
+			spawn(3, 1.5, 2, 1, false, false, 2)
 		else:
-			e.ai_num = 1
-			e.health *= 0.7
-			e.base_speed *= 0.7
-		e.damage = int(e.damage)
-		e.name = str("Enemy", enemy_num)
-		enemy_num += 1
-		call_deferred("add_child", e)
-		e.position = Vector2(randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y), randf_range(-1000 + $Player.position.x, 1000 + $Player.position.y))
+			spawn(0.7, 1, 1, 0.7, false, false, 1)
 	if randf_range(0, 100) < exp_spawn_rate and exps.size() <= max_exp_count and is_in_menu == false:
 		var ex = exp_scene.instantiate()
 		exps.append(ex)
@@ -70,6 +85,7 @@ func _process(delta: float) -> void:
 				ex.position = randpos
 	if GlobalVariables.health <= 0:
 		proj_script.puddles = []
+		GlobalVariables.death_counter += 1
 		get_tree().change_scene_to_file("res://scenes/Death.tscn")
 	elif  GlobalVariables.health < GlobalVariables.max_health and is_in_menu == false:
 		if counter >= 60/GlobalVariables.hps_regen:

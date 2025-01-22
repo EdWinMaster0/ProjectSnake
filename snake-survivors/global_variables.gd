@@ -16,6 +16,7 @@ extends Node
 @export var p_speed = 700
 @export var p_cooldown = 2
 @export var linger = 1.0
+var death_counter = 0
 
 
 func _reset() -> void:
