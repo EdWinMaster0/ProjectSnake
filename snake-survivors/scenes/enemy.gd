@@ -42,17 +42,21 @@ func _ready() -> void:
 	cooldown = max_cooldown
 	
 func _physics_process(delta):
+	# This makes the dot effect stay after leaving the puddle
 	if dot_linger > 0:
 		dot_linger -= delta
 	else:
 		has_dot = false
+	# Slows the enemy, multiplies the enemy speed by slow_factor
 	if is_slow:
 		speed = GlobalVariables.slow_factor * base_speed
 	else:
 		speed = base_speed
+	# Makes the dot effect deal damage every frame
 	if has_dot:
 		health -= 1 * Engine.time_scale * GlobalVariables.poison_potency
 	prog.value = (((prog.max_value - prog.min_value) / max_health) * health) + prog.min_value
+	# This is for the axe II enemy, which stops, then charges at the player
 	if is_enraged:
 		speed *= enraged_factor
 	
@@ -61,7 +65,9 @@ func _physics_process(delta):
 	# Calculate the target position
 	target_position = (player_position - position).normalized()
 	
+	# Calculate velocity
 	velocity = target_position * speed
+	# Activate the ai of the enemy that was randomly selected in main_map_1.gd
 	if is_boss:
 		boss_I_ai(delta)
 	elif ai_num == 0:
@@ -71,52 +77,55 @@ func _physics_process(delta):
 	elif ai_num == 2:
 		axe_II_ai(delta)
 		
+	# Show shield animation
 	if has_shield:
 		$Sprite2D/ShieldSprite.show()
 		$Sprite2D/AnimationPlayer.play("shield")
 	else:
 		$Sprite2D/ShieldSprite.hide()
 	
+	# Give xp after enemy dies
 	if health <= 0:
+		# Amount based on enemy damage
 		GlobalVariables.exp += int(damage)
+		# Keep giving levels and subtracting the xp cap from the current xp until xp is less than the xp cap
 		while GlobalVariables.exp >= GlobalVariables.exp_cap:
 			GlobalVariables.exp -= GlobalVariables.exp_cap
 			GlobalVariables.level += 1
+			# Ramping xp cap
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
+		# If the boss dies, make the rain go away
 		if is_boss:
 			get_parent().is_raining = false
 		queue_free()
 		
 		
-
+# Attacking cooldown for the enemies
 func _on_timer_timeout() -> void:
 	can_hit= true
+	# Make the player red when hit
 	player.modulate = Color(1, 1, 1)
 	tail.modulate = Color(1, 1, 1)
+	# Segments too
 	for i in range(player.segments.size()):
 		player.segments[i].get_child(0).modulate = Color(1, 1, 1) 
+	# Checks every time the enemy hurtbox enters, if the timer is up
 	if isin == true:
-		if can_hit:
-			$Hurtbox/Timer.start()
-			can_hit = false
-			GlobalVariables.health -= damage/GlobalVariables.defense
-			player.modulate = Color(3, 0, 0)
-			tail.modulate = Color(3, 0, 0)
-			for i in range(player.segments.size()):
-				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
+		# Deals damage
+		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
 
 func deal_damage(def:float):
-	isin = true
+	# Enemy stops to damage the player
 	can_move = false
 	if can_hit:
+		# Start cooldown
 		$Hurtbox/Timer.start()
-		player.stay_red_counter = 60
+		# Make player red for X Ticks
+		player.stay_red_counter = 30
+		# Can't hit until time's up
 		can_hit = false
+		# Deal damage
 		GlobalVariables.health -= int(damage/def)
-		player.modulate = Color(3, 0, 0)
-		tail.modulate = Color(3, 0, 0)
-		for i in range(player.segments.size()):
-			player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
 
 var is_hurtbox_active = true
