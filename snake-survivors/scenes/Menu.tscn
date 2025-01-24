@@ -8,7 +8,13 @@
 
 [node name="Menu" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -778.0
+offset_bottom = -426.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1.67826, 1.64713)
 metadata/_edit_use_anchors_ = true
 
