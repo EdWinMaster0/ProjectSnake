@@ -59,7 +59,7 @@ func _on_body_entered(body: Node2D) -> void:
 size = Vector2(3.00002, 5.99999)
 
 [node name="EnemyProjectile" type="Area2D"]
-scale = Vector2(4, 4)
+scale = Vector2(5, 5)
 collision_layer = 0
 collision_mask = 4
 linear_damp = 100.0

@@ -16,6 +16,8 @@ extends Node
 @export var p_speed = 700
 @export var p_cooldown = 2
 @export var linger = 1.0
+@export var skill_points = 0
+@export var skills = []
 var death_counter = 0
 
 
@@ -35,6 +37,8 @@ func _reset() -> void:
 	p_speed = 700
 	p_cooldown = 2
 	linger = 1.0
+	skill_points = 0
+	skills = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

@@ -42,7 +42,6 @@ func _ready() -> void:
 	cooldown = max_cooldown
 	
 func _physics_process(delta):
-	# This makes the dot effect stay after leaving the puddle
 	if dot_linger > 0:
 		dot_linger -= delta
 	else:
@@ -51,11 +50,9 @@ func _physics_process(delta):
 		speed = GlobalVariables.slow_factor * base_speed
 	else:
 		speed = base_speed
-	# Makes the dot effect deal damage every frame
 	if has_dot:
 		health -= 1 * Engine.time_scale * GlobalVariables.poison_potency
 	prog.value = (((prog.max_value - prog.min_value) / max_health) * health) + prog.min_value
-	# This is for the axe II enemy, which stops, then charges at the player
 	if is_enraged:
 		speed *= enraged_factor
 	
@@ -64,9 +61,7 @@ func _physics_process(delta):
 	# Calculate the target position
 	target_position = (player_position - position).normalized()
 	
-	# Calculate velocity
 	velocity = target_position * speed
-	# Activate the ai of the enemy that was randomly selected in main_map_1.gd
 	if is_boss:
 		boss_I_ai(delta)
 	elif ai_num == 0:
@@ -76,52 +71,60 @@ func _physics_process(delta):
 	elif ai_num == 2:
 		axe_II_ai(delta)
 		
-	# Show shield animation
 	if has_shield:
 		$Sprite2D/ShieldSprite.show()
 		$Sprite2D/AnimationPlayer.play("shield")
 	else:
 		$Sprite2D/ShieldSprite.hide()
 	
-	# Give xp after enemy dies
 	if health <= 0:
-		# Amount based on enemy damage
 		GlobalVariables.exp += int(damage)
-		# Keep giving levels and subtracting the xp cap from the current xp until xp is less than the xp cap
 		while GlobalVariables.exp >= GlobalVariables.exp_cap:
 			GlobalVariables.exp -= GlobalVariables.exp_cap
 			GlobalVariables.level += 1
-			# Ramping xp cap
+			if GlobalVariables.level >= 5:
+				GlobalVariables.skill_points += 1
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
-		# If the boss dies, make the rain go away
 		if is_boss:
 			get_parent().is_raining = false
 		queue_free()
 		
 		
-# Attacking cooldown for the enemies
+
 func _on_timer_timeout() -> void:
 	can_hit= true
-	# Checks every time the enemy hurtbox enters, if the timer is up
+	player.modulate = Color(1, 1, 1)
+	tail.modulate = Color(1, 1, 1)
+	for i in range(player.segments.size()):
+		player.segments[i].get_child(0).modulate = Color(1, 1, 1) 
 	if isin == true:
-		# Deals damage
-		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
+		if can_hit:
+			$Hurtbox/Timer.start()
+			can_hit = false
+			GlobalVariables.health -= damage/GlobalVariables.defense
+			player.modulate = Color(3, 0, 0)
+			tail.modulate = Color(3, 0, 0)
+			for i in range(player.segments.size()):
+				player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
 func deal_damage(def:float):
-	# Enemy stops to damage the player
+	isin = true
 	can_move = false
 	if can_hit:
 		$Hurtbox/Timer.start()
-		# Make player red for X Ticks
-		player.stay_red_counter = 30
+		player.stay_red_counter = 60
 		can_hit = false
 		GlobalVariables.health -= int(damage/def)
+		player.modulate = Color(3, 0, 0)
+		tail.modulate = Color(3, 0, 0)
+		for i in range(player.segments.size()):
+			player.segments[i].get_child(0).modulate = Color(3, 0, 0) 
 
+
+var is_hurtbox_active = true
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	# Check seperately if enemy is touching the head or segment of the player
 	if body.name == "Player":
-		# Stop the axe II charge
 		is_enraged = false
 		if !is_boss and ai_num == 2:
 			cooldown = max_cooldown
@@ -130,22 +133,17 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		is_enraged = false
 		if !is_boss and ai_num == 2:
 			cooldown = max_cooldown
-		# This is why it is checked seperately, segments have another defense variable to multiply with
 		deal_damage(GlobalVariables.defense * GlobalVariables.scale_toughness)
 
 	
 func _on_hurtbox_body_exited(body: Node2D) -> void:
-	# Checked in _on_timer_timeout()
 	isin = false
-	# Enemy can move again
 	if body.name == "Player" or body.name.contains("Segment"):
 		can_move = true
 		
 func shoot() -> void:
 	var proj = projectile_scene.instantiate()
-	# Arrow scales with enemy size
 	proj.scale *= scale
-	# Shoot from the crossbow
 	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
 
@@ -157,31 +155,25 @@ func axe_I_ai() -> void:
 			$Sprite2D.rotation_degrees += 90
 			
 func axe_II_ai(delta: float) -> void:
-	# Sets z index to one above the other enemies, so it goes above other enemies when charging
 	$Sprite2D.z_index = 2
 	$AnimationPlayer.play("axe_II_idle")
 	cooldown -= delta
-	# If charge is not ready, walk normally
 	if cooldown > 0:
 		if position.distance_to(player_position) > 3 and can_move:
 			move_and_slide()
 			$Sprite2D.look_at(player_position)
 			$Sprite2D.rotation_degrees += 90
 		$CollisionShape2D.disabled = false
-	# If charge is ready, stand for 1 second
 	elif cooldown > -1:
 		$Sprite2D.look_at(player_position)
 		$Sprite2D.rotation_degrees += 90
-	# If wait is over, charge forward
 	elif cooldown > -3:
-		# Disabling collisionshape so it goes through enemies, but not the player
 		$CollisionShape2D.disabled = true
 		is_enraged = true
 		if position.distance_to(player_position) > 3 and can_move:
 			move_and_slide()
 			$Sprite2D.look_at(player_position)
 			$Sprite2D.rotation_degrees += 90
-	# Reset
 	else:
 		$CollisionShape2D.disabled = false
 		is_enraged = false
@@ -206,7 +198,6 @@ func boss_I_ai(delta: float) -> void:
 	$Sprite2D/ShieldSprite.position = Vector2(0, 0)
 	z_index = 100
 	cooldown -= delta
-	# Phase 1
 	if health > max_health/2:
 		if cooldown > 0:
 			$AnimationPlayer.play("boss_idle")
@@ -222,7 +213,6 @@ func boss_I_ai(delta: float) -> void:
 			velocity = $Sprite2D.transform.x * speed*3
 			$Sprite2D.rotation_degrees += 90
 			move_and_slide()
-	# Phase 2
 	else:
 		get_parent().is_raining = true
 		if subordinates.size() <= max_subordinates and can_spawn:
@@ -230,7 +220,6 @@ func boss_I_ai(delta: float) -> void:
 			get_parent().spawn(3, 1.5, 2, 1, false, false, 2)
 			subordinates.append(get_parent().e)
 			get_parent().e.position = position
-			# Spawn subordinates at boss positon, will be changed
 		else:
 			can_spawn = false
 		for s in subordinates:
@@ -238,9 +227,7 @@ func boss_I_ai(delta: float) -> void:
 				subordinates.erase(s)
 		if subordinates.size() <= 0:
 			has_shield = false
-			# Hop
 			cooldown -= delta
-			# Spawn subordinates
 			cooldown_II -= delta
 			if cooldown_II <= 0:
 				can_spawn = true
