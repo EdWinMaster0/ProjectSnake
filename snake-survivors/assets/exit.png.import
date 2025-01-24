@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gqwr2amqppjw"
-path="res://.godot/imported/Snake Survival.png-31cf8bbe7ca126fd9a7026293db9d7e4.ctex"
+uid="uid://ds1pvnm2sow8h"
+path="res://.godot/imported/exit.png-851c039c90041d896886fb5ebf4f1311.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Snake Survival.png"
-dest_files=["res://.godot/imported/Snake Survival.png-31cf8bbe7ca126fd9a7026293db9d7e4.ctex"]
+source_file="res://assets/exit.png"
+dest_files=["res://.godot/imported/exit.png-851c039c90041d896886fb5ebf4f1311.ctex"]
 
 [params]
 
