@@ -47,7 +47,6 @@ func _physics_process(delta):
 		dot_linger -= delta
 	else:
 		has_dot = false
-	# Slows the enemy, multiplies the enemy speed by slow_factor
 	if is_slow:
 		speed = GlobalVariables.slow_factor * base_speed
 	else:
