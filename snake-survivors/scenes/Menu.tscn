@@ -1,94 +1,52 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxty0dvj5db3"]
+[gd_scene load_steps=6 format=3 uid="uid://bxty0dvj5db3"]
 
-[ext_resource type="Script" path="res://menu.gd" id="1_1ira0"]
-[ext_resource type="Texture2D" uid="uid://drpxmxf1o16uy" path="res://assets/Snake Survival.png" id="1_yht06"]
-[ext_resource type="FontFile" uid="uid://ndx3qbx36s7p" path="res://assets/Minecraft.ttf" id="2_dygh0"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_77s1r"]
-font = ExtResource("2_dygh0")
-font_size = 60
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5at2e"]
-
-[sub_resource type="FontFile" id="FontFile_8pmig"]
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/26/0/ascent = 0.0
-cache/0/26/0/descent = 0.0
-cache/0/26/0/underline_position = 0.0
-cache/0/26/0/underline_thickness = 0.0
-cache/0/26/0/scale = 1.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p7bvi"]
+[ext_resource type="Texture2D" uid="uid://gqwr2amqppjw" path="res://assets/Snake Survival.png" id="1_yht06"]
+[ext_resource type="Texture2D" uid="uid://cokbb8rhca8ns" path="res://assets/start button.png" id="2_5vnfo"]
+[ext_resource type="Script" path="res://scenes/menu.gd" id="3_m1xfb"]
+[ext_resource type="Texture2D" uid="uid://qx7olu4oe12q" path="res://assets/optionsbutton.png" id="4_rikoi"]
+[ext_resource type="Texture2D" uid="uid://ds1pvnm2sow8h" path="res://assets/exit.png" id="5_f568o"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+scale = Vector2(1.67826, 1.64713)
 metadata/_edit_use_anchors_ = true
 
-[node name="Háttér" type="Sprite2D" parent="."]
-position = Vector2(576, 325)
+[node name="SnakeSurvival" type="Sprite2D" parent="."]
+scale = Vector2(0.595806, 0.606875)
 texture = ExtResource("1_yht06")
+offset = Vector2(959.838, 539.895)
 
-[node name="DeathCounter" type="Label" parent="Háttér"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -702.5
-offset_top = -311.0
-offset_right = -449.5
-offset_bottom = -160.0
-grow_horizontal = 2
-text = "asd"
-label_settings = SubResource("LabelSettings_77s1r")
+[node name="Start" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 394.457
+offset_top = 463.838
+offset_right = 2314.46
+offset_bottom = 1543.84
+scale = Vector2(0.175257, 0.111713)
+texture_normal = ExtResource("2_5vnfo")
+script = ExtResource("3_m1xfb")
 
-[node name="Gombok" type="MarginContainer" parent="."]
-layout_mode = 2
-offset_left = 479.0
-offset_top = 454.0
-offset_right = 872.0
-offset_bottom = 687.0
-scale = Vector2(0.536924, 1.12998)
+[node name="Options" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 738.862
+offset_top = 479.623
+offset_right = 1762.86
+offset_bottom = 1503.62
+scale = Vector2(0.121722, 0.0980713)
+texture_normal = ExtResource("4_rikoi")
+script = ExtResource("3_m1xfb")
 
-[node name="Gombok" type="VBoxContainer" parent="Gombok"]
-layout_mode = 2
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = -8.34199
+offset_top = -4.24983
+offset_right = 1015.66
+offset_bottom = 1019.75
+scale = Vector2(0.105521, 0.108339)
+texture_normal = ExtResource("5_f568o")
+script = ExtResource("3_m1xfb")
 
-[node name="Start" type="Button" parent="Gombok/Gombok"]
-layout_mode = 2
-theme_override_constants/outline_size = 0
-theme_override_font_sizes/font_size = 26
-text = "Start"
-script = ExtResource("1_1ira0")
-
-[node name="HSeparator" type="HSeparator" parent="Gombok/Gombok"]
-layout_mode = 2
-theme_override_constants/separation = 7
-theme_override_styles/separator = SubResource("StyleBoxTexture_5at2e")
-
-[node name="Options" type="Button" parent="Gombok/Gombok"]
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontFile_8pmig")
-theme_override_font_sizes/font_size = 26
-text = "Options"
-script = ExtResource("1_1ira0")
-
-[node name="HSeparator2" type="HSeparator" parent="Gombok/Gombok"]
-layout_mode = 2
-theme_override_constants/separation = 7
-theme_override_styles/separator = SubResource("StyleBoxFlat_p7bvi")
-
-[node name="Quit" type="Button" parent="Gombok/Gombok"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "Quit"
-script = ExtResource("1_1ira0")
-
-[connection signal="pressed" from="Gombok/Gombok/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Start" to="Gombok/Gombok/Start" method="_on_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Options" to="Gombok/Gombok/Start" method="_on_options_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="Gombok/Gombok/Quit" to="Gombok/Gombok/Start" method="_on_quit_pressed"]
+[connection signal="pressed" from="Start" to="Start" method="_on_pressed"]
+[connection signal="pressed" from="Options" to="Start" method="_on_options_pressed"]
+[connection signal="pressed" from="TextureButton" to="Start" method="_on_texture_button_pressed"]
