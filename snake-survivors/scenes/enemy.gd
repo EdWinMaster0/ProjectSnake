@@ -87,6 +87,7 @@ func _physics_process(delta):
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
 		if is_boss:
 			get_parent().is_raining = false
+			get_parent().boss_alive = false
 		queue_free()
 		get_parent().enemies.erase(self)
 		

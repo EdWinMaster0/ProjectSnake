@@ -475,7 +475,7 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("1_8qms3")
 hframes = 4
 vframes = 10
-frame = 8
+frame = 16
 
 [node name="Marker2D" type="Marker2D" parent="Sprite2D"]
 position = Vector2(-3.60003, -7.99999)

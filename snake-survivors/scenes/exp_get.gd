@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var exp_amount = 100
-@export var heal_amount = 100
+@export var heal_amount = 50
 
 func _ready() -> void:
 	pass
