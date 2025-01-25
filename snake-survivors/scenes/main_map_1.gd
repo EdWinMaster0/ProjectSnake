@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var enemy_spawn_rate = 1.0
+@export var enemy_spawn_rate = 0.5
 @export var max_enemy_count = 10
 @export var exp_spawn_rate = 10.0
 @export var max_exp_count = 3
@@ -35,7 +35,7 @@ func spawn(max_hp: float, size: float, dmg: float, spd: float, is_boss: bool, ha
 	e = enemy_scene.instantiate()
 	if is_boss:
 		e.max_health *= 20
-		e.scale *= 4
+		e.scale *= 5
 		e.damage *= 5
 		e.base_speed /= 3
 		e.is_boss = true

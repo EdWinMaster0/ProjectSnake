@@ -73,7 +73,7 @@ func _physics_process(delta):
 		
 	if has_shield:
 		$Sprite2D/ShieldSprite.show()
-		$Sprite2D/AnimationPlayer.play("shield")
+		$Sprite2D/AnimationPlayer.play("Shield")
 	else:
 		$Sprite2D/ShieldSprite.hide()
 	
