@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://buo1luci0ugne"]
+[gd_scene load_steps=17 format=3 uid="uid://buo1luci0ugne"]
 
 [ext_resource type="Texture2D" uid="uid://5epcyefp6kfd" path="res://assets/Sprite-0001.png" id="1_8qms3"]
 [ext_resource type="Script" path="res://scenes/enemy.gd" id="1_swfbk"]
@@ -459,6 +459,8 @@ _data = {
 "boss_idle": SubResource("Animation_qq41l")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vvtyx"]
+
 [node name="Enemy" type="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
 collision_layer = 6
@@ -532,6 +534,11 @@ libraries = {
 "": SubResource("AnimationLibrary_6i7mr")
 }
 autoplay = "axe_idle"
+
+[node name="NeverTurnThisAreaOff" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NeverTurnThisAreaOff"]
+shape = SubResource("CircleShape2D_vvtyx")
 
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_hurtbox_body_exited"]

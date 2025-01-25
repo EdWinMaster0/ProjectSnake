@@ -32,7 +32,6 @@ var e
 
 func spawn(max_hp: float, size: float, dmg: float, spd: float, is_boss: bool, has_shield: bool, ai_num: int) -> void:
 	e = enemy_scene.instantiate()
-	enemies.append(e)
 	if is_boss:
 		e.max_health *= 20
 		e.scale *= 5
@@ -65,8 +64,7 @@ func _process(delta: float) -> void:
 		modulate = Color(1, 1, 1)
 	if randf_range(0, 100) < enemy_spawn_rate and enemies.size() <= max_enemy_count and is_in_menu == false:
 		var e = enemy_scene.instantiate()
-		enemies.append(e)
-		if enemy_num % 20 == 0 and enemy_num == 0:
+		if enemy_num % 20 == 0 and enemy_num != 0:
 			spawn(1, 1, 1, 1, true, false, 1)
 		var rpercent = randf_range(0, 100)
 		if rpercent > 40:
@@ -93,13 +91,13 @@ func _process(delta: float) -> void:
 			counter = 0
 		else:
 			counter +=1
-	for i in range(exps.size()-1):
-		if !is_instance_valid(exps[i]):
-			exps.erase(exps[i])
-	for i in range(enemies.size()-1):
-		if !is_instance_valid(enemies[i]):
-			enemies.erase(enemies[i])
 	
-func _on_despawn_area_body_exited(body: Node2D) -> void:
-	if enemies.has(body) or exps.has(body):
-		body.queue_free()
+
+func _on_despawn_area_area_exited(area: Area2D) -> void:
+	if exps.has(area):
+		exps.erase(area)
+		area.queue_free()
+	if enemies.has(area.get_parent()) and area.name == "NeverTurnThisAreaOff":
+		if area.get_parent().is_boss == false:
+			enemies.erase(area.get_parent())
+			area.get_parent().queue_free()

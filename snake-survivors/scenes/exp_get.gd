@@ -16,4 +16,5 @@ func _on_body_entered(body: Node2D) -> void:
 			GlobalVariables.exp -= GlobalVariables.exp_cap
 			GlobalVariables.level += 1
 			GlobalVariables.exp_cap = pow(GlobalVariables.level, 2) * 50
+		get_parent().exps.erase(self)
 		queue_free()

@@ -30,7 +30,6 @@ var ai_num = 0 #0 is axe I; 1 is archer I; 2 is axe II
 var subordinates = []
 var max_subordinates = 3 #+1
 var projectile_scene = preload("res://scenes/EnemyProjectile.tscn")
-# Get a reference to the player. It's likely different in your project
 
 func _ready() -> void:
 	dot_linger = GlobalVariables.linger
@@ -40,6 +39,7 @@ func _ready() -> void:
 	prog = $TextureProgressBar
 	health = max_health
 	cooldown = max_cooldown
+	get_parent().enemies.append(self)
 	
 func _physics_process(delta):
 	if dot_linger > 0:
@@ -88,6 +88,7 @@ func _physics_process(delta):
 		if is_boss:
 			get_parent().is_raining = false
 		queue_free()
+		get_parent().enemies.erase(self)
 		
 		
 
