@@ -17,6 +17,7 @@ func _process(delta: float) -> void:
 		$Main.show()
 		$Stats.hide()
 		$Skills.hide()
+	# The stats that show in the "Stats" menu
 	sCol1.get_node("level").text = str("level: ", GlobalVariables.level)
 	sCol1.get_node("exp").text = str("exp: ", GlobalVariables.level)
 	sCol1.get_node("expUntilNext").text = str("exp until next: ", GlobalVariables.exp_cap - GlobalVariables.exp)
