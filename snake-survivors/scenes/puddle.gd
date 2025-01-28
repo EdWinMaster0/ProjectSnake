@@ -17,10 +17,12 @@ func _physics_process(delta: float) -> void:
 			enemy.get_child(0).modulate = Color(5, 0, 0) # Indicate damage visually
 		
 func _on_body_entered(body: Node2D) -> void:
+	# Only slows if the enemy is not yet in the enemies list
 	if body.name.contains("Enemy") and not enemies.has(body):
 		if not body.is_boss and not body.has_shield:
 			body.is_slow = true
 		enemies.append(body)
+		
 func _on_body_exited(body: Node2D) -> void:
 	if body.name.contains("Enemy") and enemies.has(body):
 		enemies.erase(body)
