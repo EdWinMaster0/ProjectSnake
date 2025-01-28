@@ -22,6 +22,7 @@ var death_counter = 0
 
 
 func _reset() -> void:
+	Engine.time_scale = 1
 	max_health = 500
 	health = max_health
 	damage = 100

@@ -31,6 +31,27 @@ var subordinates = []
 var max_subordinates = 3 #+1
 var projectile_scene = preload("res://scenes/EnemyProjectile.tscn")
 
+enum {
+	SURROUND,
+	ATTACK,
+	PASS,
+}
+enum {
+	RIGHT,
+	LEFT
+}
+
+var state = ATTACK
+var r_or_l = RIGHT
+var randomnum
+
+func move_direct() -> void:
+	# Set player_position to the position of the player node
+	player_position = player.position
+	# Calculate the target position
+	target_position = (player_position - position).normalized()
+	velocity = target_position * speed
+
 func _ready() -> void:
 	dot_linger = GlobalVariables.linger
 	speed = base_speed
@@ -40,6 +61,9 @@ func _ready() -> void:
 	health = max_health
 	cooldown = max_cooldown
 	get_parent().enemies.append(self)
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	randomnum = rng.randf()
 	
 func _physics_process(delta):
 	if dot_linger > 0:
@@ -56,12 +80,14 @@ func _physics_process(delta):
 	if is_enraged:
 		speed *= enraged_factor
 	
-	# Set player_position to the position of the player node
-	player_position = player.position
-	# Calculate the target position
-	target_position = (player_position - position).normalized()
+	match state:
+		SURROUND:
+			move_circle(delta) #actually moves
+		ATTACK:
+			move_direct() #still has to call move_and_slide()
+		PASS:
+			pass
 	
-	velocity = target_position * speed
 	if is_boss:
 		boss_I_ai(delta)
 	elif ai_num == 0:
@@ -148,6 +174,7 @@ func shoot() -> void:
 	proj.scale *= scale
 	proj.global_position = get_child(0).get_child(0).global_position
 	call_deferred("add_sibling", proj)
+	ammo-=1
 
 func axe_I_ai() -> void:
 	$AnimationPlayer.play("axe_idle")
@@ -183,17 +210,50 @@ func axe_II_ai(delta: float) -> void:
 	
 func archer_I_ai(delta: float) -> void:
 	$AnimationPlayer.play("archer_idle")
-	if cooldown > 0:
-		cooldown -= delta
-		if position.distance_to(player_position) > 3 and can_move:
-			move_and_slide()
-			$Sprite2D.look_at(player_position)
-			$Sprite2D.rotation_degrees += 90
+	if position.distance_to(player_position) > 40 and position.distance_to(player_position) < 80:
+		if cooldown > 0:
+			cooldown -= delta
+		else:
+			# If ammo is available, surround the player
+			if ammo > 0:
+				state = SURROUND
+				shoot()
+				cooldown = max_cooldown
+			else:
+				state = ATTACK
 	else:
-		shoot()
-		cooldown = max_cooldown
-	
-	
+		if position.distance_to(player_position) > 3 and can_move:
+				move_and_slide()
+				$Sprite2D.look_at(player_position)
+				$Sprite2D.rotation_degrees += 90
+
+func move_circle(delta):
+	match r_or_l:
+		RIGHT:
+			if position.distance_to(player_position) > 3 and can_move:
+				$Sprite2D.look_at(player)
+				$Sprite2D.rotation += 90
+				move_and_slide()
+				$Sprite2D.rotation -= 90
+		LEFT:
+			if position.distance_to(player_position) > 3 and can_move:
+				look_at(player)
+				var desired_velocity = transform.x * speed
+				var steering = (desired_velocity - velocity) * delta * 2.5
+				velocity += steering
+				move_and_slide()
+func get_circle_position(random):
+	var kill_circle_centre = player.global_position
+	var radius = 40
+	# Change this to generate new random values each time
+	var angle = random * PI * 2
+	var x = kill_circle_centre.x + cos(angle) * radius
+	var y = kill_circle_centre.y + sin(angle) * radius
+
+	# Randomnum should change periodically to keep the AI circling
+	random = randf()  # Update the random number each time
+	return Vector2(x, y)
+
 
 func boss_I_ai(delta: float) -> void:
 	$Sprite2D/ShieldSprite.scale = Vector2(2, 2)
